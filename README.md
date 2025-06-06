@@ -15,6 +15,12 @@ at the moment, maybe later
 bun install
 ```
 
+Start DB:
+
+```
+bun run db:push
+```
+
 To run:
 ```sh
 bun run dev
