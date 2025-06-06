@@ -137,3 +137,5 @@ dist
 
 # Project
 *.db
+.opencode
+OpenCode.md

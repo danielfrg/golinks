@@ -5,9 +5,13 @@
     "db:push": "bunx --bun drizzle-kit push"
   },
   "dependencies": {
+    "@hono/zod-validator": "^0.7.0",
     "@libsql/client": "^0.15.8",
     "drizzle-orm": "^0.44.2",
-    "hono": "^4.7.11"
+    "hono": "^4.7.11",
+    "hono-openapi": "^0.4.8",
+    "zod": "^3.25.53",
+    "zod-openapi": "^4.2.4"
   },
   "devDependencies": {
     "@types/bun": "latest",
