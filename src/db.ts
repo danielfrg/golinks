@@ -1,21 +1,12 @@
 import { drizzle } from 'drizzle-orm/bun-sqlite';
 import { Database } from 'bun:sqlite';
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 
 // Database setup
 const sqlite = new Database('./sqlite.db');
 export const db = drizzle(sqlite);
 
-// Schema for the links table
-export const linksTable = sqliteTable('links', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
-  shortUrl: text('short_url').notNull().unique(),
-  longUrl: text('long_url').notNull(),
-  clickCount: integer('click_count').default(0).notNull(),
-  createdAt: integer('created_at', { mode: 'timestamp' }).default(sql`(CURRENT_TIMESTAMP)`).notNull(),
-  updatedAt: integer('updated_at', { mode: 'timestamp' }).default(sql`(CURRENT_TIMESTAMP)`).notNull().$onUpdate(() => new Date()),
-});
+import { linksTable } from './link.sql';
 
 export type Link = typeof linksTable.$inferSelect;
 export type NewLink = typeof linksTable.$inferInsert;
@@ -41,7 +32,7 @@ export async function getLinkByShortUrl(shortUrl: string): Promise<Link | undefi
  */
 export async function incrementClickCount(shortUrl: string): Promise<void> {
   await db.update(linksTable)
-    .set({ 
+    .set({
       clickCount: sql`${linksTable.clickCount} + 1`,
       updatedAt: new Date(),
     })
