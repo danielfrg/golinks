@@ -1,2 +1,23 @@
 # golinks
-golinks service. simple and private. design to self-host
+
+A simple and private golinks service. design for self-hosting
+
+## Install
+
+## FAQ
+
+- Auth? This is designed to be self-hostable on a trusted environment. So not
+at the moment, maybe later
+
+## Development
+
+```sh
+bun install
+```
+
+To run:
+```sh
+bun run dev
+```
+
+open http://localhost:3000
