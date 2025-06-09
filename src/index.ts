@@ -1,13 +1,12 @@
 import { HTTPException } from 'hono/http-exception';
 import { Hono } from 'hono';
 
-import {
-  getLinkByShortUrl as dbGetLinkByShortUrl,
-  incrementClickCount as dbIncrementClickCount,
-  getAllLinks as dbGetAllLinks,
-} from './db';
-
 import apiApp from "./api";
+import {
+  getLinkByShortUrl,
+  incrementClickCount,
+  getAllLinks,
+} from './db';
 
 // Main Application
 const app = new Hono();
@@ -24,7 +23,7 @@ app.onError((err, c) => {
 
 app.get('/', async (c) => {
   try {
-    const links = await dbGetAllLinks();
+    const links = await getAllLinks();
 
     if (links.length === 0) {
       return c.json({ message: 'Welcome to GoLinks! No links created yet. Use the API (POST to /api/links) to create one or manage links.' });
@@ -52,11 +51,11 @@ app.get('/:shortUrl{[a-zA-Z0-9_-]+}', async (c) => {
   const shortUrl = c.req.param('shortUrl');
 
   try {
-    const link = await dbGetLinkByShortUrl(shortUrl);
+    const link = await getLinkByShortUrl(shortUrl);
     if (!link) {
       return c.text('Link not found.', 404);
     }
-    dbIncrementClickCount(shortUrl).catch(err => console.error('Failed to increment click count:', err));
+    incrementClickCount(shortUrl).catch(err => console.error('Failed to increment click count:', err));
     return c.redirect(link.longUrl, 301);
 
   } catch (error: any) {

@@ -7,11 +7,11 @@ export const LinkSchema = z.object({
   }),
   shortUrl: z.string().min(1).max(50).regex(/^[a-zA-Z0-9_-]+$/).openapi({
     description: 'The short URL alias.',
-    example: 'mylink',
+    example: 'shorturl'
   }),
   longUrl: z.string().url().openapi({
-    description: 'The original long URL.',
-    example: 'https://example.com/very/long/url',
+    description: 'The original URL.',
+    example: 'https://example.com/long/url',
   }),
   clickCount: z.number().int().min(0).openapi({
     description: 'Number of times the link has been clicked.',

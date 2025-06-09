@@ -11,8 +11,6 @@ import { linksTable } from './link.sql';
 export type Link = typeof linksTable.$inferSelect;
 export type NewLink = typeof linksTable.$inferInsert;
 
-// Database interaction functions
-
 /**
  * Creates a new short link.
  */
@@ -53,6 +51,3 @@ export async function deleteLinkByShortUrl(shortUrl: string): Promise<void> {
   await db.delete(linksTable).where(sql`${linksTable.shortUrl} = ${shortUrl}`);
 }
 
-// Optional: Run migrations (if you set up drizzle-kit)
-// import { migrate } from "drizzle-orm/bun-sqlite/migrator";
-// migrate(db, { migrationsFolder: "./drizzle" }); // Ensure you have a migrations folder if you use this
