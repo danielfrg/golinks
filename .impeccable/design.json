@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-13T20:02:53.632889+00:00",
+  "title": "Design System: Golinks",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Dark neutral"
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Neutral page"
+      },
+      "destructive": {
+        "role": "error",
+        "displayName": "Destructive red"
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "feedback",
+        "value": "150ms",
+        "purpose": "Link arrows and disclosure state; disabled for reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "stacked",
+        "value": "760px"
+      },
+      {
+        "name": "phone",
+        "value": "400px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Local Button variant used in Golinks.",
+      "html": "<button class=\"ds-button-primary\">Save link</button>",
+      "css": ".ds-button-primary{height:44px;padding:0 16px;border-radius:8px;font:500 14px/1.5 ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color 150ms;background:var(--primary);color:var(--primary-foreground);border:1px solid transparent}.ds-button-primary:hover{opacity:.8}.ds-button-primary:focus-visible{outline:2px solid var(--ring);outline-offset:3px}.ds-button-primary:disabled{opacity:.5;cursor:default}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Local Button variant used in Golinks.",
+      "html": "<button class=\"ds-button-outline\">Save link</button>",
+      "css": ".ds-button-outline{height:44px;padding:0 16px;border-radius:8px;font:500 14px/1.5 ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color 150ms;background:transparent;color:var(--foreground);border:1px solid var(--border)}.ds-button-outline:hover{opacity:.8}.ds-button-outline:focus-visible{outline:2px solid var(--ring);outline-offset:3px}.ds-button-outline:disabled{opacity:.5;cursor:default}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "description": "Local Button variant used in Golinks.",
+      "html": "<button class=\"ds-button-ghost\">Save link</button>",
+      "css": ".ds-button-ghost{height:44px;padding:0 16px;border-radius:8px;font:500 14px/1.5 ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color 150ms;background:transparent;color:var(--foreground);border:1px solid transparent}.ds-button-ghost:hover{opacity:.8}.ds-button-ghost:focus-visible{outline:2px solid var(--ring);outline-offset:3px}.ds-button-ghost:disabled{opacity:.5;cursor:default}"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Labeled short-name, search and path input.",
+      "html": "<label class=\"ds-field\">Short name<input class=\"ds-input\" placeholder=\"Short name\" /></label>",
+      "css": ".ds-field{display:grid;gap:8px;font:500 13px/1.5 ui-sans-serif,system-ui,sans-serif}.ds-input{width:100%;min-width:0;box-sizing:border-box;height:44px;padding:8px 12px;border:1px solid var(--input);border-radius:8px;background:var(--card);color:var(--foreground);font:400 14px/1.5 ui-sans-serif,system-ui,sans-serif}.ds-input::placeholder{color:var(--muted-foreground)}.ds-input:focus-visible{outline:2px solid var(--ring);outline-offset:3px}"
+    },
+    {
+      "name": "Link Directory",
+      "kind": "custom",
+      "description": "A single bordered list containing actual short names and destinations; shown empty without example links.",
+      "html": "<section class=\"ds-directory\"><h2>No links yet</h2><p>Create a short name for a URL you use often.</p></section>",
+      "css": ".ds-directory{padding:48px 24px;border:1px dashed var(--border);border-radius:10px;background:var(--background);color:var(--foreground);text-align:center;font:400 14px/1.5 ui-sans-serif,system-ui,sans-serif}.ds-directory h2{font-size:17px;font-weight:500;margin:0 0 8px}.ds-directory p{margin:0;color:var(--muted-foreground)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Compact short-link manager",
+    "overview": "Preserve the neutral light foundation shared by Budget and Homelab Dashboard; this is a compact operational tool.",
+    "keyCharacteristics": [
+      "Actual short names and destinations first.",
+      "Compact inline forms.",
+      "Quiet borders and neutral surfaces."
+    ],
+    "rules": [],
+    "dos": [
+      "Use labeled native controls and visible focus.",
+      "Preserve form values after a failure."
+    ],
+    "donts": [
+      "Do not add summary tiles or example data."
+    ]
+  }
+}
