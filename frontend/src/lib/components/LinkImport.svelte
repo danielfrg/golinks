@@ -27,7 +27,7 @@
  <form onsubmit={submit}>
   <div class="editor-fields">
    <div class="field"><label for="import-links">Links file</label><Input id="import-links" bind:ref={fileInput} type="file" class="backup-file" accept=".jsonl,.ndjson,.json,application/x-ndjson,application/json" onchange={(event)=>selected(event,"links")} disabled={busy} required aria-describedby="import-hint"/></div>
-   <div class="field"><label for="import-stats">Click history <span class="optional">(optional)</span></label><Input id="import-stats" type="file" class="backup-file" accept=".csv,text/csv" onchange={(event)=>selected(event,"stats")} disabled={busy}/><p class="field-hint">Without a CSV, total visits are kept. <a class="text-link" href="/.export-stats">Export click history</a></p></div>
+   <div class="field"><label for="import-stats">Click history <span class="optional">(optional)</span></label><Input id="import-stats" type="file" class="backup-file" accept=".csv,text/csv" onchange={(event)=>selected(event,"stats")} disabled={busy}/><p class="field-hint">Without a CSV, total visits are kept. <a class="text-link" href="/_/export-stats">Export click history</a></p></div>
   </div>
   {#if error}<p class="form-error" role="alert">{error}</p>{/if}
   <div class="editor-actions"><Button type="submit" class="control" disabled={busy||!linksFile}>{busy?"Importing…":"Import links"}</Button><Button variant="outline" class="control" onclick={onCancel} disabled={busy}>Cancel</Button></div>

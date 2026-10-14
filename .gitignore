@@ -6,6 +6,15 @@
 /frontend/dist/
 /frontend/.vite/
 /.pnpm-store/
+/.worktrees/
+/backups/
+/docs/local-execution.md
+/docs/superpowers/
+*.db
+*.db-*
+*.sqlite*
+golinks*.jsonl
+golinks-stats*.csv
 /.superpowers/
 .env
 .env.*

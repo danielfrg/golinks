@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/danielfrg/golinks/internal/store"
+	"github.com/danielfrg/golinks/internal/web"
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/adapters/humago"
-	"golinks/internal/store"
-	"golinks/internal/web"
 )
 
 type Options struct {
@@ -35,15 +35,15 @@ func NewHandler(assets fs.FS, s *store.Store, options Options) http.Handler {
 	api := humago.New(mux, config)
 	registerLinks(api, s, options)
 	registerImport(api, s)
-	mux.HandleFunc("GET /.healthz", func(w http.ResponseWriter, r *http.Request) { _, _ = io.WriteString(w, "ok\n") })
-	mux.HandleFunc("GET /.readyz", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("GET /_/healthz", func(w http.ResponseWriter, r *http.Request) { _, _ = io.WriteString(w, "ok\n") })
+	mux.HandleFunc("GET /_/readyz", func(w http.ResponseWriter, r *http.Request) {
 		if err := s.Ping(r.Context()); err != nil {
 			http.Error(w, "Database unavailable", 503)
 			return
 		}
 		_, _ = io.WriteString(w, "ok\n")
 	})
-	mux.Handle("GET /.assets/", web.Handler(assets))
+	mux.Handle("GET /_/assets/", web.Handler(assets))
 	registerCompatibility(mux, s, options)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Referrer-Policy", "no-referrer")
@@ -91,7 +91,7 @@ func NewHandler(assets fs.FS, s *store.Store, options Options) http.Handler {
 			web.Index(w, r, assets, 200)
 			return
 		}
-		if r.URL.Path == "/_" || strings.HasPrefix(r.URL.Path, "/_/") || strings.HasPrefix(r.URL.Path, "/.") {
+		if r.URL.Path == "/_" || strings.HasPrefix(r.URL.Path, "/_/") {
 			mux.ServeHTTP(w, r)
 			return
 		}

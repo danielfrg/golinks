@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/danielfrg/golinks/internal/store"
 	"github.com/danielgtaylor/huma/v2"
-	"golinks/internal/store"
 )
 
 const maxImportBody int64 = 16 << 20
@@ -16,7 +16,7 @@ const maxImportBody int64 = 16 << 20
 type importInput struct {
 	Body struct {
 		Links string  `json:"links" doc:"JSONL file downloaded from Export links"`
-		Stats *string `json:"stats,omitempty" doc:"Optional CSV file downloaded from /.export-stats"`
+		Stats *string `json:"stats,omitempty" doc:"Optional CSV file downloaded from /_/export-stats"`
 	}
 }
 

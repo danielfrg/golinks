@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"strings"
 
-	"golinks/internal/links"
-	"golinks/internal/store"
-	"golinks/internal/web"
+	"github.com/danielfrg/golinks/internal/links"
+	"github.com/danielfrg/golinks/internal/store"
+	"github.com/danielfrg/golinks/internal/web"
 )
 
 func acceptHTML(r *http.Request) bool {
@@ -24,7 +24,7 @@ func serveRedirect(w http.ResponseWriter, r *http.Request, s *store.Store, asset
 	}
 	short, remainder, _ := strings.Cut(strings.TrimPrefix(r.URL.Path, "/"), "/")
 	if strings.HasSuffix(short, "+") {
-		w.Header().Set("Location", "/.detail/"+strings.TrimSuffix(short, "+"))
+		w.Header().Set("Location", "/_/detail/"+strings.TrimSuffix(short, "+"))
 		w.WriteHeader(302)
 		return
 	}

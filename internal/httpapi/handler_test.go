@@ -11,7 +11,7 @@ import (
 	"testing"
 	"testing/fstest"
 
-	"golinks/internal/store"
+	"github.com/danielfrg/golinks/internal/store"
 )
 
 func testApp(t *testing.T, readOnly bool) (http.Handler, *store.Store) {
@@ -93,13 +93,25 @@ func TestAPINamespace(t *testing.T) {
 	}
 }
 
+func TestInternalRoutesUseUnderscore(t *testing.T) {
+	h, _ := testApp(t, false)
+	for _, name := range []string{"healthz", "readyz", "export", "export-stats", "opensearch"} {
+		if w := request(h, "GET", "/_/"+name, ""); w.Code != 200 {
+			t.Errorf("%s: %d", name, w.Code)
+		}
+		if w := request(h, "GET", "/."+name, ""); w.Code != 404 {
+			t.Errorf("dot route remains: %s %d", name, w.Code)
+		}
+	}
+}
+
 func TestLinkResponsesHaveNoIdentity(t *testing.T) {
 	h, s := testApp(t, false)
 	snapshot := `{"short":"wiki","long":"https://host/","created":"2026-10-13T00:00:00Z","lastEdit":"2026-10-13T00:00:00Z","clicks":0}`
 	if _, err := s.Import(context.Background(), strings.NewReader(snapshot), nil); err != nil {
 		t.Fatal(err)
 	}
-	for _, target := range []string{"/_/api/links", "/_/api/links/wiki", "/.detail/wiki", "/_/api/openapi.json"} {
+	for _, target := range []string{"/_/api/links", "/_/api/links/wiki", "/_/detail/wiki", "/_/api/openapi.json"} {
 		w := request(h, "GET", target, "")
 		if w.Code != 200 || strings.Contains(strings.ToLower(w.Body.String()), `"owner"`) {
 			t.Fatalf("identity in %s: %d %s", target, w.Code, w.Body)
@@ -195,15 +207,15 @@ func TestRedirectsAndPaths(t *testing.T) {
 		t.Fatal("HEAD counted")
 	}
 	w = request(h, "GET", "/meetingnotes+", "")
-	if w.Code != 302 || w.Header().Get("Location") != "/.detail/meetingnotes" {
+	if w.Code != 302 || w.Header().Get("Location") != "/_/detail/meetingnotes" {
 		t.Fatal(w.Code, w.Header())
 	}
-	w = request(h, "GET", "/.detail/meetingnotes", "")
+	w = request(h, "GET", "/_/detail/meetingnotes", "")
 	var detail map[string]any
 	if json.Unmarshal(w.Body.Bytes(), &detail) != nil || detail["Short"] != "meeting-notes" {
 		t.Fatal(w.Body.String())
 	}
-	for _, target := range []string{"/_/api/nope", "/.assets/missing.js", "/.assets/.keep", "/_/api%2fnope"} {
+	for _, target := range []string{"/_/api/nope", "/_/assets/missing.js", "/_/assets/.keep", "/_/api%2fnope"} {
 		if w := request(h, "GET", target, ""); w.Code != 404 {
 			t.Errorf("%s: %d", target, w.Code)
 		}
@@ -219,7 +231,7 @@ func TestRedirectsAndPaths(t *testing.T) {
 	if w.Code != 404 || !strings.Contains(w.Body.String(), "Golinks") {
 		t.Fatal(w.Code, w.Body)
 	}
-	w = request(h, "GET", "/.assets/assets/app.js", "")
+	w = request(h, "GET", "/_/assets/assets/app.js", "")
 	if w.Code != 200 {
 		t.Fatal(w.Code)
 	}
@@ -258,7 +270,7 @@ func TestMutationGuardsAndPreview(t *testing.T) {
 	if w.Code != 405 {
 		t.Fatal(w.Code)
 	}
-	for _, target := range []string{"/", "/.healthz", "/.readyz", "/_/api/settings"} {
+	for _, target := range []string{"/", "/_/healthz", "/_/readyz", "/_/api/settings"} {
 		w = request(h, "GET", target, "")
 		if w.Code != 200 {
 			t.Fatalf("%s %d %s", target, w.Code, w.Body)

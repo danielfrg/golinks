@@ -8,7 +8,7 @@ import (
 	"io"
 	"os"
 
-	"golinks/internal/store"
+	"github.com/danielfrg/golinks/internal/store"
 )
 
 func runImport(ctx context.Context, args []string, databasePath string, stdout io.Writer) error {

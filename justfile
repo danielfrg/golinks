@@ -25,3 +25,9 @@ build:
     go test ./...
     go vet ./...
     CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o golinks ./cmd/golinks
+
+image:
+    docker build -t golinks:local .
+
+image-check: image
+    bash scripts/container-smoke.sh golinks:local

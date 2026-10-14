@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"golinks/internal/links"
+	"github.com/danielfrg/golinks/internal/links"
 	_ "modernc.org/sqlite"
 )
 
@@ -47,6 +47,9 @@ func Open(filename string) (*Store, error) {
 		if _, err := db.Exec(statement); err != nil {
 			return fail(err)
 		}
+	}
+	if err := upgradeStats(db); err != nil {
+		return fail(err)
 	}
 	return &Store{db: db}, nil
 }

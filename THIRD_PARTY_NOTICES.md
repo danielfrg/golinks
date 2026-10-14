@@ -1,0 +1,28 @@
+# Third-party notices
+
+Golinks is licensed under Apache-2.0. Its dependencies and reused UI components retain their own licenses. These notices are distributed in the server image.
+
+- github.com/danielgtaylor/huma/v2 v2.39.1: [LICENSE.md](licenses/github.com_danielgtaylor_huma_v2_LICENSE.md)
+- github.com/dustin/go-humanize v1.0.1: [LICENSE](licenses/github.com_dustin_go-humanize_LICENSE)
+- github.com/google/uuid v1.6.0: [LICENSE](licenses/github.com_google_uuid_LICENSE)
+- github.com/mattn/go-isatty v0.0.23: [LICENSE](licenses/github.com_mattn_go-isatty_LICENSE)
+- github.com/ncruces/go-strftime v1.0.0: [LICENSE](licenses/github.com_ncruces_go-strftime_LICENSE)
+- github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec: [LICENSE](licenses/github.com_remyoudompheng_bigfft_LICENSE)
+- golang.org/x/exp v0.0.0-20251023183803-a4bb9ffd2546: [LICENSE](licenses/golang.org_x_exp_LICENSE)
+- golang.org/x/sys v0.47.0: [LICENSE](licenses/golang.org_x_sys_LICENSE)
+- modernc.org/libc v1.67.6: [LICENSE](licenses/modernc.org_libc_LICENSE)
+- modernc.org/libc v1.67.6: [LICENSE-3RD-PARTY.md](licenses/modernc.org_libc_LICENSE-3RD-PARTY.md)
+- modernc.org/mathutil v1.7.1: [LICENSE](licenses/modernc.org_mathutil_LICENSE)
+- modernc.org/memory v1.11.0: [LICENSE](licenses/modernc.org_memory_LICENSE)
+- modernc.org/memory v1.11.0: [LICENSE-GO](licenses/modernc.org_memory_LICENSE-GO)
+- modernc.org/memory v1.11.0: [LICENSE-LOGO](licenses/modernc.org_memory_LICENSE-LOGO)
+- modernc.org/memory v1.11.0: [LICENSE-MMAP-GO](licenses/modernc.org_memory_LICENSE-MMAP-GO)
+- modernc.org/sqlite v1.45.0: [LICENSE](licenses/modernc.org_sqlite_LICENSE)
+- svelte 5.56.8: [LICENSE.md](licenses/svelte_LICENSE.md)
+- clsx 2.1.1: [license](licenses/clsx_license)
+- tailwind-merge 3.6.0: [LICENSE.md](licenses/tailwind-merge_LICENSE.md)
+- tailwind-variants 3.3.0: [LICENSE](licenses/tailwind-variants_LICENSE)
+- tw-animate-css 1.4.0: [LICENSE](licenses/tw-animate-css_LICENSE)
+- tailwindcss 4.3.3: [LICENSE](licenses/tailwindcss_LICENSE)
+- Go standard library: [LICENSE](licenses/go_LICENSE)
+- Reused UI components based on shadcn-svelte: [MIT license](licenses/shadcn-svelte_LICENSE)

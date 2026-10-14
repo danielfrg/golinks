@@ -13,7 +13,7 @@ embedded in one Go executable.
 
 ## Users
 
-Daniel and others on the network who use memorable shortcuts from a
+Self-hosters and others on their network who use memorable shortcuts from a
 desktop or phone, and maintain the destinations through a compact browser UI.
 
 ## Product Purpose
@@ -23,6 +23,10 @@ Success means redirects and Go URL templates work, and links are easy to find,
 create, edit.
 
 ## Operating Context
+
+A shared service on a trusted network. Anyone who can reach it can manage links;
+there are no accounts or identity settings. The public project distributes one
+server executable and container images with persistent SQLite storage.
 
 ## Capabilities and Constraints
 
