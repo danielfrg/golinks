@@ -59,6 +59,6 @@
   {:else if loaded&&visible.length===0}<div class="empty-state"><h2>No matching links</h2><p>Try another name or destination.</p><button class="text-link" onclick={()=>setView({query:""},true)}>Clear search</button></div>
   {:else if loaded&&settings}<LinkList links={visible} publicUrl={settings.publicUrl} readOnly={settings.readOnly} disabled={importing} onEdit={(link)=>{status="";setView({edit:link.short,create:null});}}/>{/if}
  </section>
- <footer class="app-footer"><button class="footer-action" onclick={()=>setView({help:!view.help})} aria-expanded={view.help}>Template help</button><a href="/.export">Export links</a>{#if settings&&!settings.readOnly}<button class="footer-action" bind:this={importButton} onclick={openImport} aria-expanded={importing} disabled={importing||editorOpen||loading}>Import links</button>{/if}<a href="/_/api/docs">API docs</a></footer>
+ <footer class="app-footer"><button class="footer-action" onclick={()=>setView({help:!view.help})} aria-expanded={view.help}>Template help</button><a href="/_/export">Export links</a>{#if settings&&!settings.readOnly}<button class="footer-action" bind:this={importButton} onclick={openImport} aria-expanded={importing} disabled={importing||editorOpen||loading}>Import links</button>{/if}<a href="/_/api/docs">API docs</a></footer>
  {#if view.help}<TemplateHelp/>{/if}
 </main>

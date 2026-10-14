@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/danielfrg/golinks/internal/links"
+	"github.com/danielfrg/golinks/internal/store"
 	"github.com/danielgtaylor/huma/v2"
-	"golinks/internal/links"
-	"golinks/internal/store"
 )
 
 type linkInput struct {

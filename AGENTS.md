@@ -33,6 +33,10 @@ environment variables; the default local database is `data/golinks.db`.
 
 ## Deployment
 
+GitHub Actions validates pull requests and publishes public multi-platform images
+to `ghcr.io/danielfrg/golinks`. Deployment configuration belongs in the consuming
+infrastructure repository. All internal routes use `/_/`, including assets,
+exports and health probes. Containers run as UID/GID 65532 with writable storage.
 
 ## Check
 

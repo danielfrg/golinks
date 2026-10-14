@@ -10,9 +10,9 @@ import (
 	"syscall"
 	"time"
 
-	"golinks/internal/httpapi"
-	"golinks/internal/store"
-	"golinks/internal/web"
+	"github.com/danielfrg/golinks/internal/httpapi"
+	"github.com/danielfrg/golinks/internal/store"
+	"github.com/danielfrg/golinks/internal/web"
 )
 
 func run(ctx context.Context, args []string) error {

@@ -13,8 +13,8 @@ import (
 	"testing/fstest"
 	"time"
 
-	"golinks/internal/httpapi"
-	"golinks/internal/store"
+	"github.com/danielfrg/golinks/internal/httpapi"
+	"github.com/danielfrg/golinks/internal/store"
 )
 
 func TestAppBackupRoundTrip(t *testing.T) {
@@ -59,7 +59,7 @@ func TestAppBackupRoundTrip(t *testing.T) {
 		t.Fatal(err)
 	}
 	exported := make(map[string][]byte)
-	for path, name := range map[string]string{"/.export": "links.jsonl", "/.export-stats": "stats.csv"} {
+	for path, name := range map[string]string{"/_/export": "links.jsonl", "/_/export-stats": "stats.csv"} {
 		response := httptest.NewRecorder()
 		sourceHTTP.ServeHTTP(response, httptest.NewRequest(http.MethodGet, path, nil))
 		if response.Code != 200 || !strings.Contains(response.Header().Get("Content-Disposition"), "attachment") {

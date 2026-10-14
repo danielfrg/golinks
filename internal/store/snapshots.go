@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"time"
 
-	"golinks/internal/links"
+	"github.com/danielfrg/golinks/internal/links"
 )
 
 var ErrInvalidSnapshot = errors.New("Invalid backup")

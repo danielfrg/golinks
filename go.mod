@@ -1,4 +1,4 @@
-module golinks
+module github.com/danielfrg/golinks
 
 go 1.25.0
 
