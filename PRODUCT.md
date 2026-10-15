@@ -26,8 +26,7 @@ identity settings. The Go executable embeds the Svelte frontend.
 - Preserve unsaved input and selected files after failed operations.
 - Keep loading, empty lists, no search results and failed requests distinct.
 - Search, edit and help state survive refresh and browser navigation.
-- Make actions usable with a keyboard and on a phone; respect system theme and
-  explicit theme choices.
+- Make actions usable with a keyboard and on a phone in the fixed charcoal design.
 - Export and import the app's own backups atomically, preserving timestamps,
   total visits and optional click history.
 - Serve the UI and API from one standalone executable and publish container images

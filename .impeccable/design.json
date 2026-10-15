@@ -1,63 +1,63 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-15T20:49:33.968024+00:00",
-  "title": "Design System: Golinks",
+  "generatedAt": "2026-10-15T21:34:39.310174+00:00",
+  "title": "Design System: Golinks \u2014 Charcoal Index",
   "extensions": {
     "colorMeta": {
       "background": {
         "role": "neutral",
-        "displayName": "Page background (light #f5f6f8; dark #0d0d12)",
+        "displayName": "background (charcoal #161616)",
         "canonical": "var(--bg-primary)"
       },
       "foreground": {
         "role": "neutral",
-        "displayName": "Primary text (light #181b24; dark #ececf1)",
+        "displayName": "foreground (charcoal #ffffff)",
         "canonical": "var(--text-primary)"
       },
       "card": {
         "role": "neutral",
-        "displayName": "Directory and editor surface (light #ffffff; dark #16161e)",
+        "displayName": "card (charcoal #242424)",
         "canonical": "var(--bg-surface)"
       },
       "muted": {
         "role": "neutral",
-        "displayName": "Inset surface (light #ecedf2; dark #111116)",
+        "displayName": "muted (charcoal #202020)",
         "canonical": "var(--bg-inset)"
       },
       "muted-foreground": {
         "role": "neutral",
-        "displayName": "Secondary supporting text (light #555b6e; dark #b4bcd0)",
+        "displayName": "muted-foreground (charcoal #b8b8b8)",
         "canonical": "var(--text-secondary)"
       },
       "border": {
         "role": "neutral",
-        "displayName": "Default boundary (light #d8dae2; dark #333345)",
+        "displayName": "border (charcoal #4a4a4a)",
         "canonical": "var(--border-default)"
       },
       "input": {
         "role": "neutral",
-        "displayName": "Input boundary (light #d8dae2; dark #333345)",
+        "displayName": "input (charcoal #4a4a4a)",
         "canonical": "var(--border-default)"
       },
       "ring": {
         "role": "primary",
-        "displayName": "Blue focus accent (light #2563eb; dark #60a5fa)",
+        "displayName": "ring (charcoal #e8a44b)",
         "canonical": "var(--accent-blue)"
       },
       "destructive": {
         "role": "error",
-        "displayName": "Deletion and error red (light #dc2626; dark #f87171)",
+        "displayName": "destructive (charcoal #ff9b9b)",
         "canonical": "var(--accent-red)"
       }
     },
     "typographyMeta": {
       "body": {
-        "displayName": "System sans serif",
-        "purpose": "Kit UI --font-sans and --font-size-root supply unmodified base typography; shared controls retain their own default token sizes."
+        "displayName": "IBM Plex Mono",
+        "purpose": "Self-hosted regular/medium TTF, OFL notices preserved; --font-sans and --font-mono share the monospace stack. Body uses --font-size-root; controls keep Kit UI md sizes."
       },
       "heading": {
-        "displayName": "Compact page heading",
-        "purpose": "24px, semibold, 1.25 line height; paths/templates/code use monospace and visits use tabular numerals."
+        "displayName": "Charcoal Index title",
+        "purpose": "16px uppercase medium 500 wordmark, 20px line height; full-width sticky 72px navigation bar with 20px vertical padding and horizontal gutters aligned to the centered 1080px content column (20px on phones), based on OpenCode Data. Short paths 14px, footer 11px."
       }
     },
     "shadows": [],
@@ -65,12 +65,12 @@
       {
         "name": "control-feedback",
         "value": "120ms",
-        "purpose": "Kit UI hover/focus state transitions."
+        "purpose": "Kit UI color feedback; --press-transform:none prevents downward press movement."
       },
       {
-        "name": "link-and-preview-feedback",
+        "name": "preview-disclosure",
         "value": "150ms",
-        "purpose": "Link arrows and preview disclosure; reduced motion suppresses transitions and animations."
+        "purpose": "Existing preview disclosure rotation; reduced motion suppresses animations/transitions."
       }
     ],
     "breakpoints": [
@@ -79,12 +79,12 @@
         "value": "760px"
       },
       {
-        "name": "phone",
-        "value": "400px"
-      },
-      {
         "name": "toolbar",
         "value": "600px"
+      },
+      {
+        "name": "phone",
+        "value": "400px"
       }
     ]
   },
@@ -92,37 +92,30 @@
     {
       "name": "Default Button",
       "kind": "button",
-      "description": "Direct @kenn-io/kit-ui Button with default neutral tone, outline surface and md size. Save, Cancel, New link, Edit and Preview all use this shared default without application sizing or surface overrides.",
+      "description": "Direct Kit UI Button with default neutral/outline/md API. Natural desktop height is about 29px, square corners and IBM Plex Mono regular text; amber hover border, no pressed translation.",
       "html": "<button type=\"button\" class=\"ds-button-default\">Save link</button>",
-      "css": ".ds-button-default{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:var(--kit-control-height,28px);padding:5px 14px;border-radius:var(--radius-sm,4px);font-weight:500;cursor:pointer;transition:background-color .12s,border-color .12s,color .12s;font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--kit-control-font-size,var(--font-size-md));background:var(--bg-inset);color:var(--text-secondary);border:1px solid var(--border-default)}.ds-button-default:hover:not(:disabled){background:var(--bg-surface-hover)}.ds-button-default:focus-visible{outline:var(--focus-ring);outline-offset:2px}.ds-button-default:active:not(:disabled){transform:var(--press-transform,translateY(1px))}.ds-button-default:disabled{opacity:.5;cursor:default}@media(prefers-reduced-motion:reduce){.ds-button-default{transition:none}}"
+      "css": ".ds-button-default{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:var(--kit-control-height,28px);padding:5px 14px;border-radius:var(--radius-sm,4px);font-weight:500;cursor:pointer;transition:background-color .12s,border-color .12s,color .12s;font-family:var(--font-sans,\"IBM Plex Mono\",monospace);font-size:var(--kit-control-font-size,var(--font-size-md));background:var(--bg-inset);color:var(--text-secondary);border:1px solid var(--border-default)}.ds-button-default:hover:not(:disabled){background:var(--bg-surface-hover)}.ds-button-default:focus-visible{outline:var(--focus-ring);outline-offset:2px}.ds-button-default:disabled{opacity:.5;cursor:default}@media(prefers-reduced-motion:reduce){.ds-button-default{transition:none}}.ds-button-default:hover:not(:disabled){border-color:var(--ring)}.ds-button-default:active:not(:disabled){transform:none}"
     },
     {
       "name": "Danger Outline Button",
       "kind": "button",
-      "description": "Direct Kit UI Button with tone=\"danger\" and default outline surface/md size. Neutral at rest, red-tinted on hover; deletion confirms inline in the editor.",
+      "description": "Direct Kit UI Button with tone=\"danger\" and default outline/md API. Neutral at rest and red-tinted on hover with amber border; no pressed translation. Deletion confirms inline.",
       "html": "<button type=\"button\" class=\"ds-button-danger\">Delete link</button>",
-      "css": ".ds-button-danger{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:var(--kit-control-height,28px);padding:5px 14px;border-radius:var(--radius-sm,4px);font-weight:500;cursor:pointer;transition:background-color .12s,border-color .12s,color .12s;font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--kit-control-font-size,var(--font-size-md));background:var(--bg-inset);color:var(--text-secondary);border:1px solid var(--border-default)}.ds-button-danger:hover:not(:disabled){background:color-mix(in srgb,var(--accent-red) 9%,var(--bg-surface));color:color-mix(in srgb,var(--accent-red) 72%,var(--text-primary));border-color:color-mix(in srgb,var(--accent-red) 30%,var(--border-default))}.ds-button-danger:focus-visible{outline:var(--focus-ring);outline-offset:2px}.ds-button-danger:active:not(:disabled){transform:var(--press-transform,translateY(1px))}.ds-button-danger:disabled{opacity:.5;cursor:default}@media(prefers-reduced-motion:reduce){.ds-button-danger{transition:none}}"
+      "css": ".ds-button-danger{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:var(--kit-control-height,28px);padding:5px 14px;border-radius:var(--radius-sm,4px);font-weight:500;cursor:pointer;transition:background-color .12s,border-color .12s,color .12s;font-family:var(--font-sans,\"IBM Plex Mono\",monospace);font-size:var(--kit-control-font-size,var(--font-size-md));background:var(--bg-inset);color:var(--text-secondary);border:1px solid var(--border-default)}.ds-button-danger:hover:not(:disabled){background:color-mix(in srgb,var(--accent-red) 9%,var(--bg-surface));color:color-mix(in srgb,var(--accent-red) 72%,var(--text-primary));border-color:color-mix(in srgb,var(--accent-red) 30%,var(--border-default))}.ds-button-danger:focus-visible{outline:var(--focus-ring);outline-offset:2px}.ds-button-danger:disabled{opacity:.5;cursor:default}@media(prefers-reduced-motion:reduce){.ds-button-danger{transition:none}}.ds-button-danger:hover:not(:disabled){border-color:var(--ring)}.ds-button-danger:active:not(:disabled){transform:none}"
     },
     {
       "name": "Text and Search Inputs",
       "kind": "input",
-      "description": "Import TextInput and SearchInput directly from Kit UI with default md sizing and unmodified placeholder colors. Labels, bindable values and inputEl support forms and focus restoration; SearchInput supplies search/clear affordances.",
+      "description": "Direct Kit UI TextInput/SearchInput, default md height 28px, square corners. One outer border recolors amber on focus; no outer or inner outline/shadow and no inner input border. Placeholders use --text-secondary.",
       "html": "<label class=\"ds-field\">Short name<span class=\"ds-input\"><input placeholder=\"Short name\" /></span></label>",
-      "css": ".ds-field{display:grid;gap:8px;font-weight:500;font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--font-size-sm);color:var(--text-primary)}.ds-input{display:flex;align-items:center;width:100%;height:28px;padding:0 6px;border:1px solid var(--border-default);border-radius:var(--radius-md,6px);background:var(--bg-surface)}.ds-input input{width:100%;min-width:0;height:100%;padding:0;border:0;background:transparent;color:var(--text-primary);font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--font-size-sm);}.ds-input input::placeholder{color:var(--text-muted)}.ds-input:focus-within{border-color:var(--accent-blue);outline:2px solid var(--accent-blue);outline-offset:2px}.ds-input input:focus-visible{outline:none}.ds-input:hover{border-color:var(--border-default)}.ds-input:has(input:disabled){opacity:.5}"
+      "css": ".ds-field{display:grid;gap:8px;font-weight:500;font-family:var(--font-sans,\"IBM Plex Mono\",monospace);font-size:var(--font-size-sm);color:var(--text-primary)}.ds-input{display:flex;align-items:center;width:100%;height:28px;padding:0 6px;border:1px solid var(--border-default);border-radius:var(--radius-md,6px);background:var(--bg-surface)}.ds-input input{width:100%;min-width:0;height:100%;padding:0;border:0;background:transparent;color:var(--text-primary);font-family:var(--font-sans,\"IBM Plex Mono\",monospace);font-size:var(--font-size-sm);}.ds-input input::placeholder{color:var(--text-secondary)}.ds-input:focus-within{border-color:var(--accent-blue);outline:none;box-shadow:none}.ds-input input:focus-visible{outline:none}.ds-input:hover{border-color:var(--border-default)}.ds-input:has(input:disabled){opacity:.5}"
     },
     {
       "name": "Sort Dropdown",
       "kind": "input",
-      "description": "Direct Kit UI SelectDropdown with unmodified trigger sizing, typography and palette. Most used is the default; Name is available. Keyboard navigation, title=\"Sort links\" and align=\"end\" keep sorting accessible above the directory.",
+      "description": "Direct Kit UI SelectDropdown, default md 26px desktop height, square tokens and IBM Plex Mono. Most used initially; Name available. Sorting remains in the toolbar; no downward press movement.",
       "html": "<button type=\"button\" class=\"ds-sort\" aria-label=\"Sort links\" aria-haspopup=\"listbox\" aria-expanded=\"false\">Most used<svg aria-hidden=\"true\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"m6 9 6 6 6-6\"/></svg></button>",
-      "css": ".ds-sort{display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:150px;height:var(--kit-control-height,26px);padding:0 8px;background:var(--bg-inset);border:1px solid var(--border-muted);border-radius:var(--radius-sm,4px);color:var(--text-secondary);font-weight:600;cursor:pointer;font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--kit-control-font-size,var(--font-size-xs));}.ds-sort:hover,.ds-sort[aria-expanded=\"true\"]{border-color:var(--border-default);color:var(--text-primary)}.ds-sort:focus-visible{outline:var(--focus-ring);outline-offset:2px}"
-    },
-    {
-      "name": "Theme Toggle",
-      "kind": "button",
-      "description": "Direct Kit UI ThemeToggle uses its default md IconButton and cycles light, dark and system modes. initTheme({storageKey:\"golinks-theme\"}) uses the base theme and follows system appearance until an explicit choice. Browser text selection colors remain native; preview is static.",
-      "html": "<button type=\"button\" class=\"ds-theme\" aria-label=\"Change theme (current: System)\"><svg aria-hidden=\"true\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"13\" rx=\"2\"/><path d=\"M8 21h8M12 16v5\"/></svg></button>",
-      "css": ".ds-theme{display:inline-flex;align-items:center;justify-content:center;height:var(--kit-control-height,28px);width:var(--kit-control-height,28px);border:0;border-radius:var(--radius-sm,4px);background:transparent;color:var(--text-muted);cursor:pointer}.ds-theme:hover{background:var(--bg-surface-hover);color:var(--text-primary)}.ds-theme:focus-visible{outline:var(--focus-ring);outline-offset:2px}"
+      "css": ".ds-sort{display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:150px;height:var(--kit-control-height,26px);padding:0 8px;background:var(--bg-inset);border:1px solid var(--border-muted);border-radius:var(--radius-sm,4px);color:var(--text-secondary);font-weight:600;cursor:pointer;font-family:var(--font-sans,\"IBM Plex Mono\",monospace);font-size:var(--kit-control-font-size,var(--font-size-xs));}.ds-sort:hover,.ds-sort[aria-expanded=\"true\"]{border-color:var(--border-default);color:var(--text-primary)}.ds-sort:focus-visible{outline:var(--focus-ring);outline-offset:2px}.ds-sort:active{transform:none}"
     },
     {
       "name": "Close Icon Button",
@@ -134,45 +127,46 @@
     {
       "name": "Empty Directory",
       "kind": "custom",
-      "description": "Direct Kit UI EmptyState inside the directory boundary, with default padding, title, description typography and colors. Keep no links and no matches distinct. Never populate sample links.",
+      "description": "Direct Kit UI EmptyState within a square dashed default-border boundary. Keep empty directory and no matches distinct; never seed sample links.",
       "html": "<section class=\"ds-empty\"><div class=\"ds-empty-content\"><p class=\"ds-empty-title\">No links yet</p><p class=\"ds-empty-description\">Create a short name for a URL you use often.</p></div></section>",
-      "css": ".ds-empty{border:1px dashed var(--border-default);border-radius:var(--radius-lg);background:var(--bg-primary);font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--font-size-root);}.ds-empty-content{display:flex;flex-direction:column;align-items:center;gap:4px;padding:32px 16px;text-align:center}.ds-empty-title{margin:0;color:var(--text-secondary);font-size:var(--font-size-md);font-weight:600}.ds-empty-description{margin:0;max-width:380px;color:var(--text-muted);font-size:var(--font-size-sm);line-height:1.45}"
+      "css": ".ds-empty{border:1px dashed var(--border-default);border-radius:var(--radius-lg);background:var(--bg-primary);font-family:var(--font-sans,\"IBM Plex Mono\",monospace);font-size:var(--font-size-root);}.ds-empty-content{display:flex;flex-direction:column;align-items:center;gap:4px;padding:32px 16px;text-align:center}.ds-empty-title{margin:0;color:var(--text-secondary);font-size:var(--font-size-md);font-weight:600}.ds-empty-description{margin:0;max-width:380px;color:var(--text-muted);font-size:var(--font-size-sm);line-height:1.45}"
     },
     {
-      "name": "Link Directory",
+      "name": "Link Table",
       "kind": "custom",
-      "description": "Direct Kit UI Table and TableHeaderCell with default striped rows, hover styling, cell spacing and typography. Columns: Short link, Destination, numeric Visits, and Actions when writable. Sorting stays in the toolbar; table headers are not interactive. The default table wrapper contains horizontal scrolling on phones. No invented links.",
-      "html": "<table class=\"ds-directory\" aria-label=\"Links\"><thead><tr><th scope=\"col\">Short link</th><th scope=\"col\">Destination</th><th scope=\"col\" class=\"ds-visits\">Visits</th><th scope=\"col\"><span class=\"ds-sr-only\">Actions</span></th></tr></thead><tbody></tbody></table>",
-      "css": ".ds-directory{width:100%;border-collapse:collapse;font-family:var(--font-sans);font-size:var(--font-size-sm);color:var(--text-secondary)}.ds-directory th{text-align:left;padding:6px 10px;font-weight:500}.ds-directory th.ds-visits{text-align:right}.ds-sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}"
+      "description": "Direct Kit UI Table and non-interactive TableHeaderCell. Static 1px gray wrapper border, striped rows and hover backgrounds; no hover border recoloring or outline. Short paths 14px, body cells 13px with 14px padding, headers 11px with 12px 14px padding. Wrapper scrolls internally on phones. Preview includes headers only, no invented records.",
+      "html": "<div class=\"ds-table-wrapper\"><table class=\"ds-table\" aria-label=\"Links\"><thead><tr><th>Short link</th><th>Destination</th><th class=\"ds-visits\">Visits</th><th aria-label=\"Actions\"></th></tr></thead><tbody></tbody></table></div>",
+      "css": ".ds-table-wrapper{overflow:auto;min-width:0;border:1px solid var(--border-default)}.ds-table{width:100%;border-collapse:collapse;background:var(--bg-surface);font-family:var(--font-sans)}.ds-table th{padding:12px 14px;font-size:11px;letter-spacing:.04em;font-weight:400;text-align:left;color:var(--text-secondary);background:var(--bg-inset)}.ds-table td{padding:14px;font-size:13px;color:var(--text-secondary);border-bottom:1px solid var(--border-muted)}.ds-table tbody tr:nth-child(even){background:var(--bg-inset)}.ds-table tbody tr:hover{background:var(--bg-surface-hover)}.ds-table .ds-visits{text-align:right;font-variant-numeric:tabular-nums}"
     },
     {
       "name": "Native Editor Fields",
       "kind": "custom",
-      "description": "Native textarea and file input use minimal semantic token styling beside direct Kit UI controls. The inline editor keeps the directory visible; fields stack at 760px and preview/actions wrap at 400px. Values and selected files survive errors; placeholder and selection colors remain browser defaults.",
+      "description": "Native textarea/file fields use square token-based styling and a single existing border recolored amber on focus, with no outline/shadow. IBM Plex Mono matches the inline editor. Fields stack at 760px; actions/preview wrap at 400px. Inputs and selected files survive errors.",
       "html": "<div class=\"ds-native-fields\"><label class=\"ds-native-label\">Destination<textarea class=\"ds-textarea\" rows=\"2\" placeholder=\"Destination URL or Go template\"></textarea></label><label class=\"ds-native-label\">Links file<input class=\"ds-file\" type=\"file\" accept=\".jsonl,.ndjson,.json\" /></label></div>",
-      "css": ".ds-native-fields{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:24px;background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-lg);font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--font-size-root);}.ds-native-label{display:grid;gap:8px;min-width:0;font-size:13px;font-weight:500;color:var(--text-primary)}.ds-textarea,.ds-file{display:block;width:100%;min-width:0;border:1px solid var(--border-default);background:var(--bg-surface);color:var(--text-primary)}.ds-textarea{min-height:76px;resize:vertical;padding:6px 8px;border-radius:var(--radius-md);font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}.ds-file{padding:5px 8px;border-radius:var(--radius-md,6px);overflow:hidden;text-overflow:ellipsis}.ds-textarea:focus-visible,.ds-file:focus-visible{outline:var(--focus-ring);outline-offset:2px}.ds-textarea:disabled,.ds-file:disabled{opacity:.5}@media(max-width:760px){.ds-native-fields{grid-template-columns:1fr;padding:20px;gap:16px}}@media(max-width:400px){.ds-native-fields{padding:16px}}"
+      "css": ".ds-native-fields{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:24px;background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-lg);font-family:var(--font-sans,\"IBM Plex Mono\",monospace);font-size:var(--font-size-root);}.ds-native-label{display:grid;gap:8px;min-width:0;font-size:13px;font-weight:500;color:var(--text-primary)}.ds-textarea,.ds-file{display:block;width:100%;min-width:0;border:1px solid var(--border-default);background:var(--bg-surface);color:var(--text-primary)}.ds-textarea{min-height:76px;resize:vertical;padding:6px 8px;border-radius:var(--radius-md);font:13px/1.5 var(--font-mono);overflow-wrap:anywhere}.ds-file{padding:5px 8px;border-radius:var(--radius-md,6px);overflow:hidden;text-overflow:ellipsis}.ds-textarea:focus-visible,.ds-file:focus-visible{border-color:var(--ring);outline:none;box-shadow:none}.ds-textarea:disabled,.ds-file:disabled{opacity:.5}@media(max-width:760px){.ds-native-fields{grid-template-columns:1fr;padding:20px;gap:16px}}@media(max-width:400px){.ds-native-fields{padding:16px}}"
     }
   ],
   "narrative": {
-    "northStar": "Compact short-link manager",
-    "overview": "Operate mode: a compact short-link manager with system typography, neutral\nsurfaces and restrained boundaries. The header holds the title and theme toggle. Search, New link and Sort share a toolbar directly above the Kit UI table. Keep the list visible while editing. No sidebar,\nsummary tiles or decorative dashboard cards.",
+    "northStar": "Charcoal Index",
+    "overview": "Charcoal Index is the approved OpenCode-inspired direction drawn from the local\nHomelab Launcher: an operational short-link directory with IBM Plex Mono,\ncharcoal surfaces, square edges and restrained amber feedback. A compact title leads to search, New link and Sort above one table. Keep the directory\nvisible while editing. No sidebar, summary tiles or decorative dashboard cards.",
     "keyCharacteristics": [
-      "Direct @kenn-io/kit-ui controls with unmodified default sizing, surfaces, typography and palette.",
-      "Base system light/dark appearance with explicit ThemeToggle choices persisted under golinks-theme.",
-      "1040px content cap, 28px desktop gutters and 16\u201320px phone gutters.",
-      "Responsive single directory and inline forms; browser-native text selection colors."
+      "Charcoal surfaces, amber focus and square zero-radius edges with no shadows.",
+      "Self-hosted IBM Plex Mono regular/medium; 16px uppercase wordmark in a 72px full-width sticky header, matching OpenCode Data navigation.",
+      "1080px centered content, compact Kit UI md controls and an internally scrolling table.",
+      "One fixed charcoal dark palette; no theme selection or saved appearance preferences."
     ],
     "rules": [],
     "dos": [
-      "Import Kit UI controls directly: Button, TextInput, SearchInput, SelectDropdown,\nEmptyState, IconButton and ThemeToggle.",
-      "Preserve unsaved input and selected files after failed operations.",
-      "Search, edit and help state survive refresh and browser navigation.",
+      "Use a single visible focus border for text fields.",
+      "Buttons retain amber hover borders.",
+      "Preserve default stripes and hover backgrounds without hover outlines or border color changes.",
+      "Preserve selected files after errors.",
       "Respect reduced motion."
     ],
     "donts": [
-      "No sidebar,\nsummary tiles or decorative dashboard cards.",
-      "Never add a Refresh action\nor invented links.",
-      "Do not override\nKit UI component sizes, placeholders, surfaces or palette in application CSS."
+      "No sidebar, summary tiles or decorative dashboard cards.",
+      "Do not add row hover border changes or arrow animations.",
+      "Never add a Refresh action or invented links."
     ]
   }
 }

@@ -22,8 +22,9 @@ not used. Keep the compact list, inline editor and phone support.
 
 The app has no accounts or identity configuration. Never populate the application
 with invented links. Preserve inputs and selected files after errors, focus
-restoration, and navigable search/edit/help URL state. Theme selection persists
-under `golinks-theme` and follows the system until explicitly chosen.
+restoration, and navigable search/edit/help URL state. Use only the fixed charcoal
+dark design, without a theme selector or saved appearance preferences. Keep pressed
+controls stationary, input focus to a single border, and table hover borders unchanged.
 
 Redirect paths bypass ServeMux cleaning. Preserve encoded destinations, repeated
 slashes, query merging and Go template helper behavior. Templates expose `.Path`

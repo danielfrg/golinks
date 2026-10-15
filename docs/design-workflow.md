@@ -7,12 +7,13 @@ dependency. Preserve the compact Golinks workflow and Kit UI conventions.
 ## Shared controls and tokens
 
 Import controls directly from `@kenn-io/kit-ui`. Add local components only for
-app-specific behavior. Kit UI owns shared controls and light/dark tokens;
+app-specific behavior. Kit UI supplies shared controls and semantic tokens;
 `frontend/src/app.css` maps semantic aliases and owns application layout.
-Use Kit UI default control sizes, surfaces, typography and base theme; do not
-restyle shared components. Leave text selection to the browser.
-The dependency is pinned to an upstream commit, as in CI View. Theme state is
-initialized in `frontend/src/main.ts` with storage key `golinks-theme`.
+Keep Kit UI default control sizing within the accepted Charcoal Index palette
+and typography. Use a single input focus border, stationary pressed controls, and
+stable table hover borders. Leave text selection to the browser.
+The dependency is pinned to an upstream commit, as in CI View. The document
+always uses the charcoal dark palette; do not add theme state or a selector.
 
 ## Local review
 
@@ -37,7 +38,8 @@ and Git. Never populate the application with invented links.
 ## Verification
 
 Run the checks in AGENTS.md. Build with `just build`, then verify the actual
-embedded server at desktop and 320/360px phone widths in light and dark themes.
+embedded server at desktop and 320/360px phone widths. Confirm the charcoal
+palette remains fixed regardless of system appearance or old saved preferences.
 Check forms, preview, search, sort, browser navigation, focus restoration,
 read-only mode, import, long destinations, and loading/empty/error states.
 Use intercepted browser responses for fixture data; do not seed a database.

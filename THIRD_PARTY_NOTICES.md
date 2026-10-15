@@ -26,3 +26,4 @@ Golinks is licensed under Apache-2.0. Its dependencies and reused UI components 
 - dompurify 3.4.17: [LICENSE](licenses/dompurify_LICENSE), [MPL-2.0](licenses/dompurify_LICENSE-MPL)
 - marked 18.1.1: [LICENSE](licenses/marked_LICENSE)
 - shiki 4.5.0: [LICENSE](licenses/shiki_LICENSE)
+- IBM Plex Mono (regular and medium fonts): [SIL Open Font License](licenses/ibm-plex-mono_OFL.txt)

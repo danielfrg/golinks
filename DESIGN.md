@@ -2,67 +2,105 @@
 
 ## Foundation
 
-Operate mode: a compact short-link manager with system typography, neutral
-surfaces and restrained boundaries. The header holds the title and theme toggle.
-Search, New link and Sort share a toolbar directly above the Kit UI table. Keep the list visible while editing. No sidebar,
-summary tiles or decorative dashboard cards.
+Charcoal Index is the approved OpenCode-inspired direction drawn from the local
+Homelab Launcher: an operational short-link directory with IBM Plex Mono,
+charcoal surfaces, square edges and restrained amber feedback. A compact, full-width navigation header
+precedes search, New link and Sort above one table. Keep the directory
+visible while editing. No sidebar, summary tiles or decorative dashboard cards.
 
-Kit UI (`@kenn-io/kit-ui`) supplies plain CSS tokens and reusable controls.
-The dependency is pinned to the same upstream GitHub commit as CI View in
-`frontend/package.json`. `frontend/src/app.css` maps its semantic palette to
-Golinks aliases and owns the directory/editor layout. Tailwind is not used.
-Light/dark mode follows the system initially; the header ThemeToggle persists
-an explicit choice under `golinks-theme`.
+Import Button, TextInput, SearchInput, SelectDropdown, EmptyState, IconButton,
+Table and TableHeaderCell directly from `@kenn-io/kit-ui`. Keep local
+components for Golinks behavior rather than pass-through wrappers. Plain CSS in
+`frontend/src/app.css` supplies the approved theme and directory/editor layout;
+Tailwind is not used. Native textarea and file inputs use the same semantic tokens.
 
-Import Kit UI controls directly: Button, TextInput, SearchInput, SelectDropdown,
-EmptyState, IconButton, Table, TableHeaderCell and ThemeToggle. Keep local components for Golinks behavior, rather
-than pass-through aliases. Native textarea and file inputs use semantic fields
-and the same visible focus. Destructive color is reserved for errors/deletion.
-Use `--background`, `--foreground`, `--card`, `--muted`, `--muted-foreground`,
-`--border`, `--input`, `--ring` and `--destructive` aliases mapped to Kit UI tokens.
+The fixed palette below is defined by `:root.dark`. The document always has the
+`dark` class. The legacy token name `--accent-blue` carries amber.
+
+| Kit UI token | Charcoal |
+| --- | --- |
+| `--bg-primary` | `#161616` |
+| `--bg-surface` | `#242424` |
+| `--bg-inset` | `#202020` |
+| `--bg-surface-hover` | `#303030` |
+| `--text-primary` | `#ffffff` |
+| `--text-secondary` | `#b8b8b8` |
+| `--text-muted` | `#a3a3a3` |
+| `--border-default` | `#4a4a4a` |
+| `--border-muted` | `#3a3a3a` |
+| `--accent-blue` | `#e8a44b` |
+| `--accent-red` | `#ff9b9b` |
+
+Golinks aliases map `--background` to `--bg-primary`, `--foreground` to
+`--text-primary`, `--card` to `--bg-surface`, `--muted` to `--bg-inset`,
+`--muted-foreground` to `--text-secondary`, `--border` and `--input` to
+`--border-default`, `--ring` to `--accent-blue`, and `--destructive` to
+`--accent-red`. All three radius tokens are `0px`; `--radius` uses `--radius-lg`.
+`--shadow-raised`, `--shadow-sunken` and `--shadow-panel` are `none`.
 
 ## Layout and type
 
-Content is capped at 1040px with 28px desktop and 16–20px phone gutters.
-Kit UI Table rows align short name, destination, visits and Edit. TableHeaderCell
-supplies column headers, including numeric alignment for Visits. Keep the default
-striped rows, hover styling, cell spacing and typography. On narrow screens the
-Kit UI wrapper scrolls horizontally without widening the page.
-The directory toolbar keeps search and New link on the left and Sort on the right;
-below 600px search takes a full row with New link and Sort beneath it. Forms stack fields.
-At 400px preview fields and actions wrap. Long URLs/templates wrap without
-page overflow at 320px.
+The full-width header matches OpenCode Data's navigation bar: sticky at the top,
+72px tall with 20px vertical padding, a charcoal background and no bottom
+border. Its horizontal padding matches the centered 1080px content column,
+including the 20px gutters at phone widths. The Golinks wordmark uses uppercase 16px medium type with a 20px line
+height. The header gap is 32px, reducing to 16px at 760px. Search, New link and
+Sort remain above the table rather than inside the navigation bar.
 
-Use the system sans-serif stack, a 1.5rem semibold page heading and compact
-supporting labels. Use monospace only for paths, templates and code examples.
-Visit numerals are tabular. Quiet 1px borders separate flat surfaces without
-shadows. Editor corners use Kit UI radius tokens. Shared controls use
-Kit UI default sizes, typography, focus styles and surfaces without app overrides.
-The sort selector defaults to Most used and aligns right above
-the directory; sorting stays in this toolbar, so table headers are not interactive.
-Read-only mode keeps its indicator and omits the Actions column and editing/import.
+Below it, center a 1080px content column with shell padding
+`32px max(24px, calc((100vw - 1080px)/2)) 120px`. At 760px the shell becomes
+`24px 20px 110px`. The shell fills the viewport below the 72px header.
+
+Self-host IBM Plex Mono regular (400) and medium (500) TTF files from
+`frontend/src/lib/assets/fonts`, retaining the OFL notices. Both `--font-sans`
+and `--font-mono` use IBM Plex Mono with `ui-monospace, SFMono-Regular, Menlo,
+monospace` fallbacks. Body sizing uses `--font-size-root`; shared controls retain
+Kit UI md sizing, with no app `--kit-control-height`. Buttons are naturally about
+29px tall, TextInput is 28px and SelectDropdown is 26px on desktop. The shared
+`--font-weight-medium` is 400. Main short paths use 14px and footer actions 11px.
+
+The toolbar wraps search onto a full row at narrow widths (760px and 600px rules),
+with New link and Sort beneath it. Most used is the initial sort; Name is
+available. Sorting belongs in this toolbar; table headers are not interactive.
+Table body cells have 14px padding and 13px text. Headers have `12px 14px`
+padding, 11px text, .04em tracking and weight 400. Visits use tabular numerals.
+The wrapper has a static 1px default border and scrolls horizontally on phones,
+including 320px, without widening the page. Preserve default stripes and hover
+backgrounds without hover outlines or border color changes. Read-only mode omits
+the Actions column and editing/import.
+
+The inline editor uses a square surface with a 1px default border and 24px padding
+(20px at 760px; 16px at 400px). Fields stack at 760px; preview fields and actions
+wrap at 400px. Long destinations and template results wrap within their containers.
 
 ## Interaction and states
 
-Labeled Kit UI search and keyboard-accessible sort controls share semantic
-fields and visible focus. Search/edit/help state lives in URL query parameters
-and survives refresh and browser navigation. Theme selection uses the shared
-Kit UI store and default base theme; native browser fields follow its light/dark
-color scheme. Text selection uses the browser default highlight. Do not override
-Kit UI component sizes, placeholders, surfaces or palette in application CSS.
+The site uses only the charcoal dark design. There is no theme selector, theme
+store initialization or saved appearance preference. System appearance and old
+preferences do not change the palette. Native browser fields use the dark color
+scheme, and text selection keeps the browser highlight.
 
-The inline editor shows immutable names when editing, destination, Save/Cancel,
-and optional path/query preview. Errors stay near the form and preserve inputs.
-Delete asks for confirmation within the editor. Save returns to the list and
-restores focus to Edit; closing a new editor restores focus to New link.
-An unknown shortcut offers creation without automatically creating data.
+Use a single visible focus border for text fields: TextInput's outer border turns
+amber through `--ring`, while its outline, shadow and inner input outline remain
+absent. Its inner input has no border; placeholders use `--text-secondary`.
+Native textarea and file inputs also recolor their existing border on focus,
+without another outline or shadow. Other controls retain visible Kit UI focus.
+Buttons retain amber hover borders. `--press-transform: none` prevents buttons
+and dropdown triggers moving downward when pressed. Do not add row hover border
+changes or arrow animations. Respect reduced motion; preview disclosure rotation
+is the existing 150ms transition.
 
-Import opens an inline form for exported JSONL and optional click-history CSV.
-Keep selected files after errors, report imported/skipped counts, reload after
-success and restore focus to Import links. Footer actions wrap on phones:
-Template help, Export links, Import links and API docs (`/_/api/docs`).
+Search/edit/help state lives in URL query parameters and survives refresh and
+browser navigation. The inline editor shows immutable names when editing,
+destination, Save/Cancel and optional path/query preview. Errors stay near the
+form and preserve inputs. Delete confirms within the editor. Save restores focus
+to Edit; closing a new editor restores focus to New link. An unknown shortcut
+offers creation without automatically creating data.
 
-Distinguish loading, no links, no results and failed requests. Preserve the
-previous list after refresh errors and expose retry. Never add a Refresh action
-or invented links. Respect reduced motion. Impeccable is local tooling with no
-production dependency; follow `docs/design-workflow.md`.
+Import accepts exported JSONL and optional click-history CSV. Preserve selected
+files after errors, report imported/skipped counts, reload after success and
+restore focus to Import links. Footer actions wrap on phones: Template help,
+Export links, Import links and API docs (`/_/api/docs`). Distinguish loading,
+no links, no results and failed requests; keep the previous list after refresh
+errors and expose retry. Never add a Refresh action or invented links.
+Impeccable remains local tooling; follow `docs/design-workflow.md`.

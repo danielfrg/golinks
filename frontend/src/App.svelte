@@ -1,6 +1,6 @@
 <script lang="ts">
  import {onMount,tick} from "svelte";
- import {Button,SearchInput,SelectDropdown,ThemeToggle,EmptyState} from "@kenn-io/kit-ui";
+ import {Button,SearchInput,SelectDropdown,EmptyState} from "@kenn-io/kit-ui";
  import LinkList from "$lib/components/LinkList.svelte";
  import LinkEditor from "$lib/components/LinkEditor.svelte";
  import TemplateHelp from "$lib/components/TemplateHelp.svelte";
@@ -38,10 +38,9 @@
  onMount(()=>{void load();const onPop=()=>{importing=false;view=readView(new URL(window.location.href));query=view.query;};window.addEventListener("popstate",onPop);return()=>{request?.abort();window.removeEventListener("popstate",onPop);};});
 </script>
 
-<main class="app-shell">
- <header class="app-header"><a class="app-title" href="/" onclick={(event)=>{event.preventDefault();setView({query:"",edit:null,create:null,help:false});}}><svg aria-hidden="true" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><path d="m13 19 6-6M11.5 21.5l-2 2a5.66 5.66 0 0 1-8-8l6-6a5.66 5.66 0 0 1 8 0m5 11a5.66 5.66 0 0 0 8 0l6-6a5.66 5.66 0 0 0-8-8l-2 2" transform="translate(2 1) scale(.82)" stroke-linecap="round" stroke-linejoin="round"/></svg><h1>Golinks</h1></a>
-  <div class="theme-control"><ThemeToggle/></div>
+<header class="app-header"><a class="app-title" href="/" onclick={(event)=>{event.preventDefault();setView({query:"",edit:null,create:null,help:false});}}><h1>Golinks</h1></a>
  </header>
+<main class="app-shell">
  {#if error}<div class="notice" role="alert"><p>{error}</p><Button class="control" onclick={load} disabled={loading}>Try again</Button></div>{/if}
  <p class="sr-only" role="status" aria-live="polite">{status}</p>
  {#if importStatus}<p class="import-status" role="status">{importStatus}</p>{/if}

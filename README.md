@@ -20,8 +20,8 @@ just frontend
 ```
 
 Open [http://127.0.0.1:5173](http://127.0.0.1:5173).
-The frontend uses Kit UI controls and semantic CSS, with a system-aware theme
-and a persistent light/dark toggle.
+The frontend uses Kit UI controls and semantic CSS with a fixed charcoal dark
+theme inspired by OpenCode.
 
 ## Build
 
