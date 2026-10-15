@@ -1,117 +1,68 @@
----
-name: Golinks
-description: Compact homelab short-link manager
-colors:
-  background: "oklch(0.985 0 0)"
-  foreground: "oklch(0.145 0 0)"
-  card: "oklch(1 0 0)"
-  primary: "oklch(0.205 0 0)"
-  primary-foreground: "oklch(0.985 0 0)"
-  muted: "oklch(0.97 0 0)"
-  muted-foreground: "oklch(0.45 0 0)"
-  destructive: "oklch(0.577 0.245 27.325)"
-  border: "oklch(0.922 0 0)"
-  ring: "oklch(0.556 0 0)"
-typography:
-  headline:
-    fontFamily: "ui-sans-serif, system-ui, sans-serif"
-    fontSize: "30px"
-    fontWeight: 600
-    lineHeight: "1.2"
-    letterSpacing: "-0.025em"
-  body:
-    fontFamily: "ui-sans-serif, system-ui, sans-serif"
-    fontSize: "14px"
-    fontWeight: 400
-    lineHeight: "1.5"
-rounded:
-  md: "8px"
-  lg: "10px"
-spacing:
-  sm: "12px"
-  md: "20px"
-  lg: "24px"
-components:
-  button-primary:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.primary-foreground}"
-    rounded: "{rounded.md}"
-    padding: "0 16px"
-    height: "44px"
-  button-outline:
-    backgroundColor: "transparent"
-    textColor: "{colors.foreground}"
-    rounded: "{rounded.md}"
-    height: "44px"
-  input:
-    backgroundColor: "{colors.card}"
-    textColor: "{colors.foreground}"
-    rounded: "{rounded.md}"
-    height: "44px"
----
+# Golinks design
 
-# Design System: Golinks
+## Foundation
 
-## Overview
+Operate mode: a compact short-link manager with system typography, neutral
+surfaces and restrained boundaries. The header holds the title and theme toggle.
+Search, New link and Sort share a toolbar directly above the Kit UI table. Keep the list visible while editing. No sidebar,
+summary tiles or decorative dashboard cards.
 
-**Creative North Star: "Compact short-link manager"**
+Kit UI (`@kenn-io/kit-ui`) supplies plain CSS tokens and reusable controls.
+The dependency is pinned to the same upstream GitHub commit as CI View in
+`frontend/package.json`. `frontend/src/app.css` maps its semantic palette to
+Golinks aliases and owns the directory/editor layout. Tailwind is not used.
+Light/dark mode follows the system initially; the header ThemeToggle persists
+an explicit choice under `golinks-theme`.
 
-Read PRODUCT.md before changing the UI. Help people find and maintain a memorable
-link quickly. Preserve the neutral light foundation shared by Budget and Homelab
-Dashboard; this is a compact operational tool.
+Import Kit UI controls directly: Button, TextInput, SearchInput, SelectDropdown,
+EmptyState, IconButton, Table, TableHeaderCell and ThemeToggle. Keep local components for Golinks behavior, rather
+than pass-through aliases. Native textarea and file inputs use semantic fields
+and the same visible focus. Destructive color is reserved for errors/deletion.
+Use `--background`, `--foreground`, `--card`, `--muted`, `--muted-foreground`,
+`--border`, `--input`, `--ring` and `--destructive` aliases mapped to Kit UI tokens.
 
-## Colors
+## Layout and type
 
-Use the inherited neutral light surfaces and dark text. Destructive red is
-reserved for errors and deletion. Semantic values are defined above and in CSS.
+Content is capped at 1040px with 28px desktop and 16–20px phone gutters.
+Kit UI Table rows align short name, destination, visits and Edit. TableHeaderCell
+supplies column headers, including numeric alignment for Visits. Keep the default
+striped rows, hover styling, cell spacing and typography. On narrow screens the
+Kit UI wrapper scrolls horizontally without widening the page.
+The directory toolbar keeps search and New link on the left and Sort on the right;
+below 600px search takes a full row with New link and Sort beneath it. Forms stack fields.
+At 400px preview fields and actions wrap. Long URLs/templates wrap without
+page overflow at 320px.
 
-## Typography
+Use the system sans-serif stack, a 1.5rem semibold page heading and compact
+supporting labels. Use monospace only for paths, templates and code examples.
+Visit numerals are tabular. Quiet 1px borders separate flat surfaces without
+shadows. Editor corners use Kit UI radius tokens. Shared controls use
+Kit UI default sizes, typography, focus styles and surfaces without app overrides.
+The sort selector defaults to Most used and aligns right above
+the directory; sorting stays in this toolbar, so table headers are not interactive.
+Read-only mode keeps its indicator and omits the Actions column and editing/import.
 
-Svelte 5, Tailwind 4, system sans-serif and local shadcn-svelte Button/Input
-components. Semantic colors and radius live in frontend/src/app.css. Use these
-tokens consistently instead of inventing component palettes. Monospace is used
-only for short-link paths, destination templates and code examples.
+## Interaction and states
 
-## Layout
+Labeled Kit UI search and keyboard-accessible sort controls share semantic
+fields and visible focus. Search/edit/help state lives in URL query parameters
+and survives refresh and browser navigation. Theme selection uses the shared
+Kit UI store and default base theme; native browser fields follow its light/dark
+color scheme. Text selection uses the browser default highlight. Do not override
+Kit UI component sizes, placeholders, surfaces or palette in application CSS.
 
-The page has a Golinks heading, search and New link action. A single bordered list
-shows short name, destination, visit count and Edit. Rows become stacked on phones.
-The alphabetical/most-used selector aligns right above the directory; omit a
-directory subtitle. Keep the read-only indicator when applicable. Export links,
-Import links, Template help and API docs are the footer actions. API docs links to `/_/api/docs`.
-Do not add a Refresh action, summary
-tiles or example data.
+The inline editor shows immutable names when editing, destination, Save/Cancel,
+and optional path/query preview. Errors stay near the form and preserve inputs.
+Delete asks for confirmation within the editor. Save returns to the list and
+restores focus to Edit; closing a new editor restores focus to New link.
+An unknown shortcut offers creation without automatically creating data.
 
-## Elevation & Depth
+Import opens an inline form for exported JSONL and optional click-history CSV.
+Keep selected files after errors, report imported/skipped counts, reload after
+success and restore focus to Import links. Footer actions wrap on phones:
+Template help, Export links, Import links and API docs (`/_/api/docs`).
 
-Flat surfaces separated by quiet 1 px borders. Do not add decorative shadows.
-
-## Shapes
-
-List/editor corners use 10 px; inputs and buttons use 8 px.
-
-## Components
-
-The inline editor shows immutable short names when editing, a destination field,
-Save/Cancel controls and an optional path/query preview. Errors stay near the
-relevant form. Delete asks for confirmation within that editor. A successful save
-returns to the list and restores focus. Keep the list visible during editing.
-
-Import opens an inline form for the exported JSONL and an optional click-history
-CSV. Keep selected files after errors, report imported/skipped counts, reload the
-list after success and restore focus to Import links. Hide Import in read-only
-mode. The footer wraps on narrow screens.
-
-## Do's and Don'ts
-
-- Use labeled native controls, visible focus, 44 px primary touch controls,
-  restrained hover feedback and reduced-motion support.
-- Wrap long URLs/templates without page overflow at 320 px.
-- Distinguish loading, no links, no results and request errors.
-- Preserve form values after a failure and preserve the list after refresh errors.
-- Query parameters keep search/edit/help state navigable and shareable.
-- An unknown shortcut offers creation without automatically creating data.
-
-Impeccable is local development tooling, with no production dependency. Follow
-docs/design-workflow.md. Keep live sessions, captures and helper injections out
-of builds. The sidecar describes this app's own foundation, not Budget data.
+Distinguish loading, no links, no results and failed requests. Preserve the
+previous list after refresh errors and expose retry. Never add a Refresh action
+or invented links. Respect reduced motion. Impeccable is local tooling with no
+production dependency; follow `docs/design-workflow.md`.

@@ -1,10 +1,11 @@
 import { fileURLToPath, URL } from "node:url";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
-import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
- plugins:[tailwindcss(),svelte()],
+ plugins:[svelte()],
+ // Kit UI ships Svelte/TypeScript source; compile it with the app.
+ optimizeDeps:{exclude:["@kenn-io/kit-ui"]},
  base:"/_/assets/",
  resolve:{alias:{$lib:fileURLToPath(new URL("./src/lib",import.meta.url))}},
  server:{host:"127.0.0.1",port:5173,strictPort:true,proxy:{

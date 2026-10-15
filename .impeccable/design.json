@@ -1,28 +1,76 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-13T20:02:53.632889+00:00",
+  "generatedAt": "2026-10-15T20:49:33.968024+00:00",
   "title": "Design System: Golinks",
   "extensions": {
     "colorMeta": {
-      "primary": {
-        "role": "primary",
-        "displayName": "Dark neutral"
-      },
       "background": {
         "role": "neutral",
-        "displayName": "Neutral page"
+        "displayName": "Page background (light #f5f6f8; dark #0d0d12)",
+        "canonical": "var(--bg-primary)"
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Primary text (light #181b24; dark #ececf1)",
+        "canonical": "var(--text-primary)"
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Directory and editor surface (light #ffffff; dark #16161e)",
+        "canonical": "var(--bg-surface)"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Inset surface (light #ecedf2; dark #111116)",
+        "canonical": "var(--bg-inset)"
+      },
+      "muted-foreground": {
+        "role": "neutral",
+        "displayName": "Secondary supporting text (light #555b6e; dark #b4bcd0)",
+        "canonical": "var(--text-secondary)"
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Default boundary (light #d8dae2; dark #333345)",
+        "canonical": "var(--border-default)"
+      },
+      "input": {
+        "role": "neutral",
+        "displayName": "Input boundary (light #d8dae2; dark #333345)",
+        "canonical": "var(--border-default)"
+      },
+      "ring": {
+        "role": "primary",
+        "displayName": "Blue focus accent (light #2563eb; dark #60a5fa)",
+        "canonical": "var(--accent-blue)"
       },
       "destructive": {
         "role": "error",
-        "displayName": "Destructive red"
+        "displayName": "Deletion and error red (light #dc2626; dark #f87171)",
+        "canonical": "var(--accent-red)"
+      }
+    },
+    "typographyMeta": {
+      "body": {
+        "displayName": "System sans serif",
+        "purpose": "Kit UI --font-sans and --font-size-root supply unmodified base typography; shared controls retain their own default token sizes."
+      },
+      "heading": {
+        "displayName": "Compact page heading",
+        "purpose": "24px, semibold, 1.25 line height; paths/templates/code use monospace and visits use tabular numerals."
       }
     },
     "shadows": [],
     "motion": [
       {
-        "name": "feedback",
+        "name": "control-feedback",
+        "value": "120ms",
+        "purpose": "Kit UI hover/focus state transitions."
+      },
+      {
+        "name": "link-and-preview-feedback",
         "value": "150ms",
-        "purpose": "Link arrows and disclosure state; disabled for reduced motion."
+        "purpose": "Link arrows and preview disclosure; reduced motion suppresses transitions and animations."
       }
     ],
     "breakpoints": [
@@ -33,64 +81,98 @@
       {
         "name": "phone",
         "value": "400px"
+      },
+      {
+        "name": "toolbar",
+        "value": "600px"
       }
     ]
   },
   "components": [
     {
-      "name": "Primary Button",
+      "name": "Default Button",
       "kind": "button",
-      "refersTo": "button-primary",
-      "description": "Local Button variant used in Golinks.",
-      "html": "<button class=\"ds-button-primary\">Save link</button>",
-      "css": ".ds-button-primary{height:44px;padding:0 16px;border-radius:8px;font:500 14px/1.5 ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color 150ms;background:var(--primary);color:var(--primary-foreground);border:1px solid transparent}.ds-button-primary:hover{opacity:.8}.ds-button-primary:focus-visible{outline:2px solid var(--ring);outline-offset:3px}.ds-button-primary:disabled{opacity:.5;cursor:default}"
+      "description": "Direct @kenn-io/kit-ui Button with default neutral tone, outline surface and md size. Save, Cancel, New link, Edit and Preview all use this shared default without application sizing or surface overrides.",
+      "html": "<button type=\"button\" class=\"ds-button-default\">Save link</button>",
+      "css": ".ds-button-default{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:var(--kit-control-height,28px);padding:5px 14px;border-radius:var(--radius-sm,4px);font-weight:500;cursor:pointer;transition:background-color .12s,border-color .12s,color .12s;font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--kit-control-font-size,var(--font-size-md));background:var(--bg-inset);color:var(--text-secondary);border:1px solid var(--border-default)}.ds-button-default:hover:not(:disabled){background:var(--bg-surface-hover)}.ds-button-default:focus-visible{outline:var(--focus-ring);outline-offset:2px}.ds-button-default:active:not(:disabled){transform:var(--press-transform,translateY(1px))}.ds-button-default:disabled{opacity:.5;cursor:default}@media(prefers-reduced-motion:reduce){.ds-button-default{transition:none}}"
     },
     {
-      "name": "Outline Button",
+      "name": "Danger Outline Button",
       "kind": "button",
-      "refersTo": "button-outline",
-      "description": "Local Button variant used in Golinks.",
-      "html": "<button class=\"ds-button-outline\">Save link</button>",
-      "css": ".ds-button-outline{height:44px;padding:0 16px;border-radius:8px;font:500 14px/1.5 ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color 150ms;background:transparent;color:var(--foreground);border:1px solid var(--border)}.ds-button-outline:hover{opacity:.8}.ds-button-outline:focus-visible{outline:2px solid var(--ring);outline-offset:3px}.ds-button-outline:disabled{opacity:.5;cursor:default}"
+      "description": "Direct Kit UI Button with tone=\"danger\" and default outline surface/md size. Neutral at rest, red-tinted on hover; deletion confirms inline in the editor.",
+      "html": "<button type=\"button\" class=\"ds-button-danger\">Delete link</button>",
+      "css": ".ds-button-danger{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:var(--kit-control-height,28px);padding:5px 14px;border-radius:var(--radius-sm,4px);font-weight:500;cursor:pointer;transition:background-color .12s,border-color .12s,color .12s;font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--kit-control-font-size,var(--font-size-md));background:var(--bg-inset);color:var(--text-secondary);border:1px solid var(--border-default)}.ds-button-danger:hover:not(:disabled){background:color-mix(in srgb,var(--accent-red) 9%,var(--bg-surface));color:color-mix(in srgb,var(--accent-red) 72%,var(--text-primary));border-color:color-mix(in srgb,var(--accent-red) 30%,var(--border-default))}.ds-button-danger:focus-visible{outline:var(--focus-ring);outline-offset:2px}.ds-button-danger:active:not(:disabled){transform:var(--press-transform,translateY(1px))}.ds-button-danger:disabled{opacity:.5;cursor:default}@media(prefers-reduced-motion:reduce){.ds-button-danger{transition:none}}"
     },
     {
-      "name": "Ghost Button",
-      "kind": "button",
-      "description": "Local Button variant used in Golinks.",
-      "html": "<button class=\"ds-button-ghost\">Save link</button>",
-      "css": ".ds-button-ghost{height:44px;padding:0 16px;border-radius:8px;font:500 14px/1.5 ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:background-color 150ms;background:transparent;color:var(--foreground);border:1px solid transparent}.ds-button-ghost:hover{opacity:.8}.ds-button-ghost:focus-visible{outline:2px solid var(--ring);outline-offset:3px}.ds-button-ghost:disabled{opacity:.5;cursor:default}"
-    },
-    {
-      "name": "Text Input",
+      "name": "Text and Search Inputs",
       "kind": "input",
-      "refersTo": "input",
-      "description": "Labeled short-name, search and path input.",
-      "html": "<label class=\"ds-field\">Short name<input class=\"ds-input\" placeholder=\"Short name\" /></label>",
-      "css": ".ds-field{display:grid;gap:8px;font:500 13px/1.5 ui-sans-serif,system-ui,sans-serif}.ds-input{width:100%;min-width:0;box-sizing:border-box;height:44px;padding:8px 12px;border:1px solid var(--input);border-radius:8px;background:var(--card);color:var(--foreground);font:400 14px/1.5 ui-sans-serif,system-ui,sans-serif}.ds-input::placeholder{color:var(--muted-foreground)}.ds-input:focus-visible{outline:2px solid var(--ring);outline-offset:3px}"
+      "description": "Import TextInput and SearchInput directly from Kit UI with default md sizing and unmodified placeholder colors. Labels, bindable values and inputEl support forms and focus restoration; SearchInput supplies search/clear affordances.",
+      "html": "<label class=\"ds-field\">Short name<span class=\"ds-input\"><input placeholder=\"Short name\" /></span></label>",
+      "css": ".ds-field{display:grid;gap:8px;font-weight:500;font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--font-size-sm);color:var(--text-primary)}.ds-input{display:flex;align-items:center;width:100%;height:28px;padding:0 6px;border:1px solid var(--border-default);border-radius:var(--radius-md,6px);background:var(--bg-surface)}.ds-input input{width:100%;min-width:0;height:100%;padding:0;border:0;background:transparent;color:var(--text-primary);font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--font-size-sm);}.ds-input input::placeholder{color:var(--text-muted)}.ds-input:focus-within{border-color:var(--accent-blue);outline:2px solid var(--accent-blue);outline-offset:2px}.ds-input input:focus-visible{outline:none}.ds-input:hover{border-color:var(--border-default)}.ds-input:has(input:disabled){opacity:.5}"
+    },
+    {
+      "name": "Sort Dropdown",
+      "kind": "input",
+      "description": "Direct Kit UI SelectDropdown with unmodified trigger sizing, typography and palette. Most used is the default; Name is available. Keyboard navigation, title=\"Sort links\" and align=\"end\" keep sorting accessible above the directory.",
+      "html": "<button type=\"button\" class=\"ds-sort\" aria-label=\"Sort links\" aria-haspopup=\"listbox\" aria-expanded=\"false\">Most used<svg aria-hidden=\"true\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"m6 9 6 6 6-6\"/></svg></button>",
+      "css": ".ds-sort{display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:150px;height:var(--kit-control-height,26px);padding:0 8px;background:var(--bg-inset);border:1px solid var(--border-muted);border-radius:var(--radius-sm,4px);color:var(--text-secondary);font-weight:600;cursor:pointer;font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--kit-control-font-size,var(--font-size-xs));}.ds-sort:hover,.ds-sort[aria-expanded=\"true\"]{border-color:var(--border-default);color:var(--text-primary)}.ds-sort:focus-visible{outline:var(--focus-ring);outline-offset:2px}"
+    },
+    {
+      "name": "Theme Toggle",
+      "kind": "button",
+      "description": "Direct Kit UI ThemeToggle uses its default md IconButton and cycles light, dark and system modes. initTheme({storageKey:\"golinks-theme\"}) uses the base theme and follows system appearance until an explicit choice. Browser text selection colors remain native; preview is static.",
+      "html": "<button type=\"button\" class=\"ds-theme\" aria-label=\"Change theme (current: System)\"><svg aria-hidden=\"true\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"13\" rx=\"2\"/><path d=\"M8 21h8M12 16v5\"/></svg></button>",
+      "css": ".ds-theme{display:inline-flex;align-items:center;justify-content:center;height:var(--kit-control-height,28px);width:var(--kit-control-height,28px);border:0;border-radius:var(--radius-sm,4px);background:transparent;color:var(--text-muted);cursor:pointer}.ds-theme:hover{background:var(--bg-surface-hover);color:var(--text-primary)}.ds-theme:focus-visible{outline:var(--focus-ring);outline-offset:2px}"
+    },
+    {
+      "name": "Close Icon Button",
+      "kind": "button",
+      "description": "Direct Kit UI IconButton with default neutral tone and md size closes the inline editor/import form. Accessible name describes the action; application CSS only sizes the glyph.",
+      "html": "<button type=\"button\" class=\"ds-close\" aria-label=\"Close editor\"><svg aria-hidden=\"true\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"m6 6 12 12M6 18 18 6\" stroke-linecap=\"round\"/></svg></button>",
+      "css": ".ds-close{display:inline-flex;align-items:center;justify-content:center;height:var(--kit-control-height,28px);width:var(--kit-control-height,28px);border:0;border-radius:var(--radius-sm,4px);background:transparent;color:var(--text-muted);cursor:pointer}.ds-close:hover{background:var(--bg-surface-hover);color:var(--text-primary)}.ds-close:focus-visible{outline:var(--focus-ring);outline-offset:2px}"
+    },
+    {
+      "name": "Empty Directory",
+      "kind": "custom",
+      "description": "Direct Kit UI EmptyState inside the directory boundary, with default padding, title, description typography and colors. Keep no links and no matches distinct. Never populate sample links.",
+      "html": "<section class=\"ds-empty\"><div class=\"ds-empty-content\"><p class=\"ds-empty-title\">No links yet</p><p class=\"ds-empty-description\">Create a short name for a URL you use often.</p></div></section>",
+      "css": ".ds-empty{border:1px dashed var(--border-default);border-radius:var(--radius-lg);background:var(--bg-primary);font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--font-size-root);}.ds-empty-content{display:flex;flex-direction:column;align-items:center;gap:4px;padding:32px 16px;text-align:center}.ds-empty-title{margin:0;color:var(--text-secondary);font-size:var(--font-size-md);font-weight:600}.ds-empty-description{margin:0;max-width:380px;color:var(--text-muted);font-size:var(--font-size-sm);line-height:1.45}"
     },
     {
       "name": "Link Directory",
       "kind": "custom",
-      "description": "A single bordered list containing actual short names and destinations; shown empty without example links.",
-      "html": "<section class=\"ds-directory\"><h2>No links yet</h2><p>Create a short name for a URL you use often.</p></section>",
-      "css": ".ds-directory{padding:48px 24px;border:1px dashed var(--border);border-radius:10px;background:var(--background);color:var(--foreground);text-align:center;font:400 14px/1.5 ui-sans-serif,system-ui,sans-serif}.ds-directory h2{font-size:17px;font-weight:500;margin:0 0 8px}.ds-directory p{margin:0;color:var(--muted-foreground)}"
+      "description": "Direct Kit UI Table and TableHeaderCell with default striped rows, hover styling, cell spacing and typography. Columns: Short link, Destination, numeric Visits, and Actions when writable. Sorting stays in the toolbar; table headers are not interactive. The default table wrapper contains horizontal scrolling on phones. No invented links.",
+      "html": "<table class=\"ds-directory\" aria-label=\"Links\"><thead><tr><th scope=\"col\">Short link</th><th scope=\"col\">Destination</th><th scope=\"col\" class=\"ds-visits\">Visits</th><th scope=\"col\"><span class=\"ds-sr-only\">Actions</span></th></tr></thead><tbody></tbody></table>",
+      "css": ".ds-directory{width:100%;border-collapse:collapse;font-family:var(--font-sans);font-size:var(--font-size-sm);color:var(--text-secondary)}.ds-directory th{text-align:left;padding:6px 10px;font-weight:500}.ds-directory th.ds-visits{text-align:right}.ds-sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}"
+    },
+    {
+      "name": "Native Editor Fields",
+      "kind": "custom",
+      "description": "Native textarea and file input use minimal semantic token styling beside direct Kit UI controls. The inline editor keeps the directory visible; fields stack at 760px and preview/actions wrap at 400px. Values and selected files survive errors; placeholder and selection colors remain browser defaults.",
+      "html": "<div class=\"ds-native-fields\"><label class=\"ds-native-label\">Destination<textarea class=\"ds-textarea\" rows=\"2\" placeholder=\"Destination URL or Go template\"></textarea></label><label class=\"ds-native-label\">Links file<input class=\"ds-file\" type=\"file\" accept=\".jsonl,.ndjson,.json\" /></label></div>",
+      "css": ".ds-native-fields{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:24px;background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-lg);font-family:var(--font-sans,system-ui,sans-serif);font-size:var(--font-size-root);}.ds-native-label{display:grid;gap:8px;min-width:0;font-size:13px;font-weight:500;color:var(--text-primary)}.ds-textarea,.ds-file{display:block;width:100%;min-width:0;border:1px solid var(--border-default);background:var(--bg-surface);color:var(--text-primary)}.ds-textarea{min-height:76px;resize:vertical;padding:6px 8px;border-radius:var(--radius-md);font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}.ds-file{padding:5px 8px;border-radius:var(--radius-md,6px);overflow:hidden;text-overflow:ellipsis}.ds-textarea:focus-visible,.ds-file:focus-visible{outline:var(--focus-ring);outline-offset:2px}.ds-textarea:disabled,.ds-file:disabled{opacity:.5}@media(max-width:760px){.ds-native-fields{grid-template-columns:1fr;padding:20px;gap:16px}}@media(max-width:400px){.ds-native-fields{padding:16px}}"
     }
   ],
   "narrative": {
     "northStar": "Compact short-link manager",
-    "overview": "Preserve the neutral light foundation shared by Budget and Homelab Dashboard; this is a compact operational tool.",
+    "overview": "Operate mode: a compact short-link manager with system typography, neutral\nsurfaces and restrained boundaries. The header holds the title and theme toggle. Search, New link and Sort share a toolbar directly above the Kit UI table. Keep the list visible while editing. No sidebar,\nsummary tiles or decorative dashboard cards.",
     "keyCharacteristics": [
-      "Actual short names and destinations first.",
-      "Compact inline forms.",
-      "Quiet borders and neutral surfaces."
+      "Direct @kenn-io/kit-ui controls with unmodified default sizing, surfaces, typography and palette.",
+      "Base system light/dark appearance with explicit ThemeToggle choices persisted under golinks-theme.",
+      "1040px content cap, 28px desktop gutters and 16\u201320px phone gutters.",
+      "Responsive single directory and inline forms; browser-native text selection colors."
     ],
     "rules": [],
     "dos": [
-      "Use labeled native controls and visible focus.",
-      "Preserve form values after a failure."
+      "Import Kit UI controls directly: Button, TextInput, SearchInput, SelectDropdown,\nEmptyState, IconButton and ThemeToggle.",
+      "Preserve unsaved input and selected files after failed operations.",
+      "Search, edit and help state survive refresh and browser navigation.",
+      "Respect reduced motion."
     ],
     "donts": [
-      "Do not add summary tiles or example data."
+      "No sidebar,\nsummary tiles or decorative dashboard cards.",
+      "Never add a Refresh action\nor invented links.",
+      "Do not override\nKit UI component sizes, placeholders, surfaces or palette in application CSS."
     ]
   }
 }

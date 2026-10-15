@@ -1,10 +1,41 @@
 # Golinks
 
-A self-hosted short-link service with Go URL templates, SQLite storage and a
-Svelte UI embedded in one Go executable. Management is open to everyone who can
-reach the service; use it on a trusted network.
+Self-hosted short links with Go URL templates, SQLite storage and an embedded
+Svelte UI. Management is open to everyone who can reach the service; use it on
+a trusted network.
 
-## Container
+## Local development
+
+Requires Go 1.25, Node 26, pnpm 10 and just.
+
+```zsh
+pnpm --dir frontend install --frozen-lockfile
+```
+
+Start the API and frontend in separate terminals:
+
+```zsh
+just api
+just frontend
+```
+
+Open [http://127.0.0.1:5173](http://127.0.0.1:5173).
+The frontend uses Kit UI controls and semantic CSS, with a system-aware theme
+and a persistent light/dark toggle.
+
+## Build
+
+```zsh
+just check
+just build
+./golinks
+```
+
+The Go executable embeds the frontend. `GOLINKS_ADDR` selects the listen address,
+defaulting to `127.0.0.1:8080`; `GOLINKS_DATABASE` selects the SQLite file.
+Open [http://127.0.0.1:8080](http://127.0.0.1:8080).
+
+## Container image
 
 ```zsh
 docker run -d --name golinks \
@@ -19,41 +50,13 @@ and ARM64. `latest` tracks `main`; version tags such as `0.1.0` and image digest
 can pin deployments. For a reverse proxy, set `GOLINKS_PUBLIC_URL` to its origin.
 Bind-mounted data directories must be writable by UID/GID 65532.
 
-## Local development
+The [Docker workflow](.github/workflows/docker.yml) validates images on pull
+requests. The Dockerfile runs frontend tests, type checks and build, then Go tests
+and vet before compiling the embedded server. Pushes and manual runs on `main`
+publish `latest` and `sha-<commit>` tags; version releases also publish semver tags.
+Publishing uses the built-in `GITHUB_TOKEN`.
 
-Requires Go 1.25, Node 26, pnpm 10 and just:
-
-```zsh
-pnpm --dir frontend install --frozen-lockfile
-```
-
-Start the API in one terminal:
-
-```zsh
-just api
-```
-
-Start the UI in another:
-
-```zsh
-just frontend
-```
-
-Open [http://127.0.0.1:5173/](http://127.0.0.1:5173/).
-
-## Build
-
-Build one executable containing the frontend:
-
-```zsh
-just build
-
-./golinks
-```
-
-Open [http://127.0.0.1:8080](http://127.0.0.1:8080)
-
-## Configuration
+## Config
 
 | Variable                | Default                                      |
 | ----------------------- | -------------------------------------------- |
