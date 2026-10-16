@@ -4,6 +4,8 @@ Self-hosted short links with Go URL templates, SQLite storage and an embedded
 Svelte UI. Management is open to everyone who can reach the service; use it on
 a trusted network.
 
+![Golinks homepage](docs/screenshots/homepage.png)
+
 ## Local development
 
 Requires Go 1.25, Node 26, pnpm 10 and just.
