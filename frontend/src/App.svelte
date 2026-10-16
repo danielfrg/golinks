@@ -1,6 +1,6 @@
 <script lang="ts">
  import {onMount,tick} from "svelte";
- import {Button,SearchInput,SelectDropdown,EmptyState} from "@kenn-io/kit-ui";
+ import {Button,SearchInput,SelectDropdown,EmptyState,ThemeToggle} from "@kenn-io/kit-ui";
  import LinkList from "$lib/components/LinkList.svelte";
  import LinkEditor from "$lib/components/LinkEditor.svelte";
  import TemplateHelp from "$lib/components/TemplateHelp.svelte";
@@ -38,7 +38,7 @@
  onMount(()=>{void load();const onPop=()=>{importing=false;view=readView(new URL(window.location.href));query=view.query;};window.addEventListener("popstate",onPop);return()=>{request?.abort();window.removeEventListener("popstate",onPop);};});
 </script>
 
-<header class="app-header"><a class="app-title" href="/" onclick={(event)=>{event.preventDefault();setView({query:"",edit:null,create:null,help:false});}}><h1>Golinks</h1></a>
+<header class="app-header"><a class="app-title" href="/" onclick={(event)=>{event.preventDefault();setView({query:"",edit:null,create:null,help:false});}}><h1>Golinks</h1></a><ThemeToggle/>
  </header>
 <main class="app-shell">
  {#if error}<div class="notice" role="alert"><p>{error}</p><Button class="control" onclick={load} disabled={loading}>Try again</Button></div>{/if}

@@ -1,5 +1,8 @@
 set dotenv-load := true
 
+install:
+    pnpm --dir frontend install --frozen-lockfile
+
 api:
     go run ./cmd/golinks
 
@@ -7,16 +10,16 @@ frontend:
     pnpm --dir frontend dev
 
 check:
-    go test ./...
+    go test -race ./...
     go vet ./...
     pnpm --dir frontend test
     pnpm --dir frontend check
 
-build:
-    pnpm --dir frontend install --frozen-lockfile
+build: install
     pnpm --dir frontend test
     pnpm --dir frontend check
     pnpm --dir frontend build
+    test -s frontend/dist/index.html
     rm -rf internal/web/dist
     mkdir -p internal/web/dist
     touch internal/web/dist/.keep

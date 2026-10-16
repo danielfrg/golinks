@@ -1,6 +1,15 @@
-import { mount } from "svelte";
-import "@kenn-io/kit-ui/theme.css";
-import App from "./App.svelte";
-import "./app.css";
+import { mount } from 'svelte';
+import { initTheme, setThemeMode } from '@kenn-io/kit-ui';
+import '@kenn-io/kit-ui/theme.css';
+import './theme.css';
+import App from './App.svelte';
+import './app.css';
 
-mount(App, { target: document.getElementById("app")! });
+initTheme({ storageKey: 'golinks-theme' });
+// Default to charcoal while respecting explicit light and system preferences.
+try {
+ if (!localStorage.getItem('golinks-theme')) setThemeMode('dark');
+} catch {
+ setThemeMode('dark');
+}
+mount(App, { target: document.getElementById('app')! });

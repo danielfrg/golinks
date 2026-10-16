@@ -4,7 +4,7 @@ RUN npm install --global pnpm@10.28.0
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY frontend/ ./
-RUN pnpm test && pnpm check && pnpm build
+RUN pnpm test && pnpm check && pnpm build && test -s dist/index.html
 
 FROM --platform=$BUILDPLATFORM golang:1.25.14-bookworm@sha256:3b4a11519ad929d1e1d261a12cff056f0c85b735253d7d861346b9c6f8b36437 AS build
 WORKDIR /src

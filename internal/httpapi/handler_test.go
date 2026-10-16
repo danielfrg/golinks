@@ -278,3 +278,24 @@ func TestMutationGuardsAndPreview(t *testing.T) {
 	}
 	_ = io.Discard
 }
+
+func TestOperationalProbes(t *testing.T) {
+	h, s := testApp(t, false)
+	for _, path := range []string{"/_/healthz", "/_/readyz"} {
+		for _, method := range []string{http.MethodGet, http.MethodHead} {
+			w := request(h, method, path, "")
+			if w.Code != http.StatusOK || w.Header().Get("Cache-Control") != "no-store" {
+				t.Errorf("%s %s: status %d, cache %q", method, path, w.Code, w.Header().Get("Cache-Control"))
+			}
+		}
+	}
+	if err := s.Close(); err != nil {
+		t.Fatal(err)
+	}
+	if w := request(h, http.MethodGet, "/_/readyz", ""); w.Code != http.StatusServiceUnavailable {
+		t.Errorf("database closed: readyz status %d", w.Code)
+	}
+	if w := request(h, http.MethodGet, "/_/healthz", ""); w.Code != http.StatusOK {
+		t.Errorf("database closed: healthz status %d", w.Code)
+	}
+}

@@ -47,6 +47,9 @@ func NewHandler(assets fs.FS, s *store.Store, options Options) http.Handler {
 	registerCompatibility(mux, s, options)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Referrer-Policy", "no-referrer")
+		if r.URL.Path == "/_/healthz" || r.URL.Path == "/_/readyz" {
+			w.Header().Set("Cache-Control", "no-store")
+		}
 		apiRequest := r.URL.Path == "/_/api" || strings.HasPrefix(r.URL.Path, "/_/api/")
 		if apiRequest && r.Method != "GET" && r.Method != "HEAD" && r.Method != "OPTIONS" {
 			if options.ReadOnly && r.URL.Path != "/_/api/resolve" {

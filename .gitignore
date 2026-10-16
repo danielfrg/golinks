@@ -1,30 +1,45 @@
-/golinks
-/data/
-/internal/web/dist/*
-!/internal/web/dist/.keep
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# Dependencies and generated assets
 /frontend/node_modules/
 /frontend/dist/
 /frontend/.vite/
-/.pnpm-store/
-/.worktrees/
-/backups/
-/docs/local-execution.md
+/internal/web/dist/*
+!/internal/web/dist/.keep
+.pnpm-store/
+
+# Local agent work and design tooling
+.impeccable/
+.superpowers/
+.worktrees/
 /docs/superpowers/
+/docs/plans/
+/docs/specs/
+/docs/*report*.md
+/docs/local-execution.md
+
+# Test and OS artifacts
+/frontend/test-results/
+/frontend/playwright-report/
+*.test
+*.out
+*.coverprofile
+coverage.*
+!coverage.go
+.DS_Store
+
+# Application files
+/golinks
+/data/
+/backups/
 *.db
 *.db-*
 *.sqlite*
 golinks*.jsonl
 golinks-stats*.csv
-/.superpowers/
-.env
-.env.*
-!.env.example
-*.test
-*.out
-**/.impeccable/live/server.json
-**/.impeccable/live/roots.json
-**/.impeccable/live/sessions/
-**/.impeccable/live/previews/
-**/.impeccable/live/artifacts/
-**/.impeccable/review/
-**/.impeccable/hook.cache.json
