@@ -23,8 +23,6 @@ RUN mkdir -p /out/data && chmod 700 /out/data
 FROM gcr.io/distroless/static-debian13:nonroot@sha256:e2e927ec666bae08560abb3c55d0659eceabb657f56b6782ab500a9fc7f555e3
 COPY --from=build /out/golinks /golinks
 COPY --from=build --chown=65532:65532 /out/data/ /data/
-COPY LICENSE THIRD_PARTY_NOTICES.md /licenses/
-COPY licenses/ /licenses/licenses/
 ARG VCS_REF
 LABEL org.opencontainers.image.source="https://github.com/danielfrg/golinks" \
       org.opencontainers.image.revision=$VCS_REF \
