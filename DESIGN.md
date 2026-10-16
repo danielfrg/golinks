@@ -28,6 +28,10 @@ preferences respected. Phone layouts must not widen the page.
 
 ## Application Patterns
 
+Use an 88px header and begin the content at 128px on desktop, or 110px at
+640px and below, matching CI View and Homelab Launcher. Align the title and
+content inside the same centered 1344px container.
+
 Keep the compact wordmark header, search/New link/Sort toolbar, and one link
 table. Short names use monospace; destinations use interface text. Preserve the
 initial Most used sort and the optional Name sort. The table may scroll inside
