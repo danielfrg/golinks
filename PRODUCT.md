@@ -36,8 +36,9 @@ and layouts that hide the directory behind a separate editing screen.
 ## Accessibility & Inclusion
 
 Support keyboard navigation, visible focus, readable light and dark themes,
-reduced motion, and phone layouts. Long destinations wrap or scroll within the
-list rather than widening the page.
+reduced motion, and phone layouts. Destinations stay on one line, truncating with
+an ellipsis; the full URL remains available on hover. The list may scroll within
+its wrapper rather than widening the page.
 
 ## Agent Access
 
