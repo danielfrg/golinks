@@ -10,6 +10,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/danielfrg/golinks/internal/linkservice"
+	"github.com/danielfrg/golinks/internal/mcp"
 	"github.com/danielfrg/golinks/internal/store"
 	"github.com/danielfrg/golinks/internal/web"
 	"github.com/danielgtaylor/huma/v2"
@@ -17,9 +19,10 @@ import (
 )
 
 type Options struct {
-	PublicURL string
-	ReadOnly  bool
-	Now       func() time.Time
+	MCPAllowedHosts []string
+	PublicURL       string
+	ReadOnly        bool
+	Now             func() time.Time
 }
 
 func NewHandler(assets fs.FS, s *store.Store, options Options) http.Handler {
@@ -27,6 +30,7 @@ func NewHandler(assets fs.FS, s *store.Store, options Options) http.Handler {
 		options.Now = time.Now
 	}
 	mux := http.NewServeMux()
+	mux.Handle("/_/mcp", mcp.NewHandler(linkservice.New(s, linkservice.Options{PublicURL: options.PublicURL, ReadOnly: options.ReadOnly, Now: options.Now}), options.MCPAllowedHosts))
 	config := huma.DefaultConfig("Golinks API", "0.1.0")
 	config.OpenAPIPath = "/_/api/openapi"
 	config.DocsPath = "/_/api/docs"

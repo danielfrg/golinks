@@ -9,6 +9,8 @@ Read `PRODUCT.md` for user intent and `DESIGN.md` before changing the frontend.
 - `internal/links` defines validation and Go URL templates; `internal/store` owns SQLite, click history, and atomic backups.
 - `frontend` uses Vite, Svelte 5, TypeScript, and Kit UI with pnpm. No SvelteKit or Tailwind.
 
+- `internal/mcp` owns typed MCP tools and the host/origin policy; keep its transport conventions consistent across the three apps.
+
 ## Conventions
 
 Import shared controls directly from `@kenn-io/kit-ui`; local components own

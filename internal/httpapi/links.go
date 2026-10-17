@@ -8,6 +8,7 @@ import (
 	"net/url"
 
 	"github.com/danielfrg/golinks/internal/links"
+	"github.com/danielfrg/golinks/internal/linkservice"
 	"github.com/danielfrg/golinks/internal/store"
 	"github.com/danielgtaylor/huma/v2"
 )
@@ -53,6 +54,13 @@ type previewOutput struct {
 }
 
 func apiError(err error) error {
+	var validation *linkservice.ValidationError
+	if errors.As(err, &validation) {
+		return huma.Error422UnprocessableEntity(validation.Error())
+	}
+	if errors.Is(err, linkservice.ErrReadOnly) {
+		return huma.Error405MethodNotAllowed(err.Error())
+	}
 	if errors.Is(err, store.ErrNotFound) {
 		return huma.Error404NotFound(err.Error())
 	}
@@ -63,6 +71,7 @@ func apiError(err error) error {
 	return huma.Error500InternalServerError("Could not access links. Try again.")
 }
 func registerLinks(api huma.API, s *store.Store, options Options) {
+	service := linkservice.New(s, linkservice.Options{PublicURL: options.PublicURL, ReadOnly: options.ReadOnly, Now: options.Now})
 	huma.Register(api, huma.Operation{OperationID: "list-links", Method: "GET", Path: "/_/api/links", Summary: "List links"}, func(ctx context.Context, _ *struct{}) (*listOutput, error) {
 		list, err := s.List(ctx)
 		if err != nil {
@@ -80,23 +89,14 @@ func registerLinks(api huma.API, s *store.Store, options Options) {
 		return &linkOutput{Body: link}, nil
 	})
 	huma.Register(api, huma.Operation{OperationID: "create-link", Method: "POST", Path: "/_/api/links", Summary: "Create a link", DefaultStatus: 201}, func(ctx context.Context, in *createInput) (*linkOutput, error) {
-		if err := links.ValidateShort(in.Body.Short); err != nil {
-			return nil, huma.Error422UnprocessableEntity(err.Error())
-		}
-		if err := links.ValidateDestination(in.Body.Long); err != nil {
-			return nil, huma.Error422UnprocessableEntity(err.Error())
-		}
-		link, err := s.Create(ctx, in.Body.Short, in.Body.Long)
+		link, err := service.Create(ctx, in.Body.Short, in.Body.Long)
 		if err != nil {
 			return nil, apiError(err)
 		}
 		return &linkOutput{Body: link}, nil
 	})
 	huma.Register(api, huma.Operation{OperationID: "update-link", Method: "PUT", Path: "/_/api/links/{short}", Summary: "Update a destination"}, func(ctx context.Context, in *updateInput) (*linkOutput, error) {
-		if err := links.ValidateDestination(in.Body.Long); err != nil {
-			return nil, huma.Error422UnprocessableEntity(err.Error())
-		}
-		link, err := s.Update(ctx, in.Short, in.Body.Long)
+		link, err := service.Update(ctx, in.Short, in.Body.Long)
 		if err != nil {
 			return nil, apiError(err)
 		}
@@ -119,12 +119,12 @@ func registerLinks(api huma.API, s *store.Store, options Options) {
 		if err != nil {
 			return nil, huma.Error422UnprocessableEntity("Query string is invalid")
 		}
-		u, err := links.Expand(in.Body.Long, links.Environment{Path: in.Body.Path, Query: query, Now: options.Now()})
+		u, err := service.Expand(in.Body.Long, in.Body.Path, query)
 		if err != nil {
 			return nil, huma.Error422UnprocessableEntity(err.Error())
 		}
 		out := &previewOutput{}
-		out.Body.URL = u.String()
+		out.Body.URL = u
 		return out, nil
 	})
 }

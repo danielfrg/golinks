@@ -38,3 +38,7 @@ and layouts that hide the directory behind a separate editing screen.
 Support keyboard navigation, visible focus, readable light and dark themes,
 reduced motion, and phone layouts. Long destinations wrap or scroll within the
 list rather than widening the page.
+
+## Agent Access
+
+Search, inspect, and preview links without counting visits. Create and update use the same validation as the HTTP API; read-only mode omits both write tools. Relative aliases resolve to the immediate redirect without following it.

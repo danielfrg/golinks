@@ -46,3 +46,9 @@ relevant action. Search, edit, and help state survive reload and browser history
 Read-only mode omits editing and import actions. Do not add a Refresh control.
 
 Use `PRODUCT.md` for user intent and `README.md` for setup and commands.
+
+## Agent Interface
+
+`/_/mcp` exposes typed MCP tools over stateless Streamable HTTP. Lists are
+bounded and stable; errors are sanitized. Agent access follows the same
+application rules and cached data contracts as the browser.

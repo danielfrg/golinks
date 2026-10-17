@@ -40,7 +40,7 @@ func run(ctx context.Context, args []string) error {
 		return err
 	}
 	log.Printf("Golinks listening at http://%s (database: %s)", listener.Addr(), settings.Database)
-	return serve(ctx, listener, httpapi.NewHandler(assets, database, httpapi.Options{PublicURL: settings.PublicURL, ReadOnly: settings.ReadOnly}), 5*time.Second)
+	return serve(ctx, listener, httpapi.NewHandler(assets, database, httpapi.Options{PublicURL: settings.PublicURL, ReadOnly: settings.ReadOnly, MCPAllowedHosts: settings.MCPAllowedHosts}), 5*time.Second)
 }
 func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)

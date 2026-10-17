@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/danielfrg/golinks/internal/links"
+	"github.com/danielfrg/golinks/internal/linkservice"
 	"github.com/danielfrg/golinks/internal/store"
 	"github.com/danielfrg/golinks/internal/web"
 )
@@ -49,7 +49,7 @@ func serveRedirect(w http.ResponseWriter, r *http.Request, s *store.Store, asset
 		return
 	}
 	query, err := r.URL.Query(), error(nil)
-	destination, err := links.Expand(link.Long, links.Environment{Path: remainder, Query: query, Now: options.Now()})
+	destination, err := linkservice.New(s, linkservice.Options{Now: options.Now}).Expand(link.Long, remainder, query)
 	if err != nil {
 		http.Error(w, err.Error(), 422)
 		return
@@ -60,6 +60,6 @@ func serveRedirect(w http.ResponseWriter, r *http.Request, s *store.Store, asset
 		}
 	}
 	w.Header().Set("Cache-Control", "no-store")
-	w.Header().Set("Location", destination.String())
+	w.Header().Set("Location", destination)
 	w.WriteHeader(302)
 }

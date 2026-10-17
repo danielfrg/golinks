@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/danielfrg/golinks/internal/mcp"
 	"net"
 	"net/url"
 	"os"
@@ -12,6 +13,7 @@ import (
 type Settings struct {
 	Addr, Database, PublicURL string
 	ReadOnly                  bool
+	MCPAllowedHosts           []string
 }
 
 func env(name, fallback string) string {
@@ -33,6 +35,10 @@ func loadSettings() (Settings, error) {
 	settings.ReadOnly, err = strconv.ParseBool(env("GOLINKS_READONLY", "false"))
 	if err != nil {
 		return settings, fmt.Errorf("GOLINKS_READONLY: %w", err)
+	}
+	settings.MCPAllowedHosts, err = mcp.ParseAllowedHosts(os.Getenv("GOLINKS_MCP_ALLOWED_HOSTS"))
+	if err != nil {
+		return settings, fmt.Errorf("GOLINKS_MCP_ALLOWED_HOSTS: %w", err)
 	}
 	return settings, nil
 }

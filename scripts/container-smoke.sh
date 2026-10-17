@@ -66,6 +66,7 @@ PY
 for uri in /wiki /wiki /search/hello /alias; do
   [[ $(curl --silent -o /dev/null -w '%{http_code}' "$source_base$uri") == 302 ]]
 done
+go run ./testdata/compat/mcp_smoke.go "$source_base/_/mcp"
 curl --fail --silent "$source_base/_/api/links" > "$smoke_dir/expected.json"
 docker rm -f "golinks-smoke-${smoke_suffix}-source" >/dev/null
 start_server source "$source_volume"; source_base=$smoke_base

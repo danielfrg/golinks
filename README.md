@@ -83,6 +83,27 @@ Readiness is `/_/readyz`; liveness is `/_/healthz`. The `/_/` namespace
 keeps operational endpoints separate from short links. Readiness checks database
 access. For a reverse proxy, set `GOLINKS_PUBLIC_URL` to its public origin.
 
+### MCP
+
+The native Streamable HTTP endpoint is `/_/mcp`. Tools: `search_links`, `get_link`, `resolve_link`, `create_link`, `update_link`.
+Search, inspect, and preview links without counting visits. Create and update use the same validation as the HTTP API; read-only mode omits both write tools. Relative aliases resolve to the immediate redirect without following it.
+
+List tools accept `limit` (default 20, maximum 100) and nonnegative `offset`,
+returning `total` and nullable `next_offset`. Responses are structured JSON.
+Connect a remote MCP client using its Streamable HTTP transport, for example:
+
+```json
+{"url": "http://127.0.0.1:8080/_/mcp", "transport": "streamable-http"}
+```
+
+MCP accepts localhost by default. For a proxy or container network, set
+`GOLINKS_MCP_ALLOWED_HOSTS` to a comma-separated list of exact hostnames
+or IP addresses, such as `app.example.net,app.default.svc.cluster.local`.
+Do not include schemes, ports, or wildcards. Invalid values fail startup.
+Browser origins must match the request host and port. Requests use POST with a
+1 MiB body limit; responses use `Cache-Control: no-store`. The endpoint has no
+built-in authentication: use a trusted network or an authenticated proxy.
+
 ## Development
 
 Requires Go 1.25, Node 26, pnpm 10, and just.
