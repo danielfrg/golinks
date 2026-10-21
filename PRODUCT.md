@@ -6,19 +6,28 @@ product
 
 ## Users
 
-People on a trusted network who want memorable shortcuts and a small directory
-for finding, creating, and maintaining their links from a desktop or phone.
+People or small teams looking for a simple golinks service to build memorable
+shortcuts and a directory for finding, creating, and maintaining their links
+from a desktop or phone.
+
+Assumes deployment on trusted network, there is no auth.
 
 ## Product Purpose
 
-Turn a short name into the right destination immediately. Keep link management,
-Go URL templates, visit counts, and backups in one self-hosted executable.
-Success means opening a familiar shortcut quickly and changing its destination
-without losing existing data.
+Turn a short name into the right destination immediately.
+
+Keep link management, Go URL templates, visit counts, and backups in one self-hosted executable.
+
+Success means opening a familiar shortcut quickly and changing its destination.
 
 ## Brand Personality
 
 Direct, compact, and calm. Names and destinations carry the interface.
+
+### Tone
+
+Do not be overly explicit about explaining every part of the UI
+with text. It should be intuitive. Only add explanatory messages when it's needed.
 
 ## Anti-references
 
@@ -33,13 +42,8 @@ and layouts that hide the directory behind a separate editing screen.
 - Distinguish loading, no links, no search results, and request failures.
 - Preserve unsaved input and return focus after save, cancel, or import.
 
-## Accessibility & Inclusion
-
-Support keyboard navigation, visible focus, readable light and dark themes,
-reduced motion, and phone layouts. Destinations stay on one line, truncating with
-an ellipsis; the full URL remains available on hover. The list may scroll within
-its wrapper rather than widening the page.
-
 ## Agent Access
 
-Search, inspect, and preview links without counting visits. Create and update use the same validation as the HTTP API; read-only mode omits both write tools. Relative aliases resolve to the immediate redirect without following it.
+Agents use the same product through typed MCP tools: search, inspect, and
+preview links without counting visits; create and update with the same
+validation as the HTTP API. Read-only mode omits the write tools.

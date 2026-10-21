@@ -71,7 +71,7 @@ func registerCompatibility(mux *http.ServeMux, s *store.Store, options Options) 
 				Template string `xml:"template,attr"`
 			} `xml:"Url"`
 		}
-		d := descriptor{XMLNS: "http://a9.com/-/spec/opensearch/1.1/", Name: "Golinks", Description: "Homelab short links", Encoding: "UTF-8"}
+		d := descriptor{XMLNS: "http://a9.com/-/spec/opensearch/1.1/", Name: "Golinks", Description: "Golinks short links", Encoding: "UTF-8"}
 		d.URL.Type = "text/html"
 		d.URL.Template = strings.TrimSuffix(options.PublicURL, "/") + "/{searchTerms}"
 		w.Header().Set("Content-Type", "application/opensearchdescription+xml")

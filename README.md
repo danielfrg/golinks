@@ -1,8 +1,9 @@
 # Golinks
 
-Self-hosted short links with Go URL templates, SQLite storage, and an embedded
-Svelte UI. Anyone who can reach the service can manage links; use it on a
-trusted network or behind an authenticated proxy.
+A golinks service. Ready for self-hosting.
+
+Go links are intuitive, easy-to-remember short links.
+[Read more about them](https://golinks.github.io/golinks/).
 
 ![Golinks](docs/screenshots/homepage.png)
 
@@ -11,20 +12,23 @@ trusted network or behind an authenticated proxy.
 ### Docker
 
 ```zsh
-docker run -d --name golinks \
+docker run -it \
   -p 127.0.0.1:8080:8080 \
   -v golinks-data:/data \
   -e GOLINKS_PUBLIC_URL=http://localhost:8080 \
   ghcr.io/danielfrg/golinks:latest
 ```
 
-Open [http://localhost:8080](http://localhost:8080). The container runs as
-UID/GID 65532 and stores SQLite data at `/data/golinks.db`. Bind-mounted data
-directories must be writable by that user. Run one instance per database.
+- Open [http://localhost:8080](http://localhost:8080)
+- The SQLite database is stored at `/data/golinks.db`
+- The container runs as UID/GID 65532
+
+Published images support Linux AMD64 and ARM64. `latest` tracks `main`.
 
 ### Standalone
 
-Build from source using the [build instructions](#build), then run:
+Build a single executable with `just build` (see [Development](#development)),
+then run:
 
 ```zsh
 ./golinks
@@ -34,113 +38,90 @@ Open [http://127.0.0.1:8080](http://127.0.0.1:8080).
 
 ## Usage
 
-Names are case-insensitive and ignore hyphens: `meeting-notes` and `MeetingNotes`
-resolve to the same link. Extra path segments are appended to plain destinations.
-Incoming query parameters are merged with destination parameters.
+Create a link in the UI and `go/name` redirects to its destination.
 
-Destination templates use `.Path`, `.Now` (UTC), and `PathEscape`, `QueryEscape`,
-`TrimPrefix`, `TrimSuffix`, `ToLower`,
-`ToUpper`, and `Match`. For example:
+Names are case-insensitive and ignore hyphens: `meeting-notes` and `MeetingNotes` are the
+same link.
+
+Destinations can also be Go URL templates. For example, `go/g/something`
+searches Google:
 
 ```text
 https://www.google.com/{{if .Path}}search?q={{QueryEscape .Path}}{{end}}
 ```
 
-Use Try a path in the editor to preview a destination. Add `+` to a short link
-to open its details. API documentation is at `/_/api/docs`.
+Use **Try a path** in the editor to preview a template. Add `+` to a short
+link (`go/name+`) to open its details instead of redirecting. API documentation
+is at `/_/api/docs`.
+
+### Browser redirects
+
+This works great with some of the [Redirect extensions](https://chromewebstore.google.com/detail/redirector/jegbdohdgebjljoljfeinojeobdabpjo?hl=en)
+
+Config:
+
+```
+Redirect: http://go/*
+To: https://go.example.net/$1
+Example: http://go/page → https://go.example.net/page
+
+## You might also need this in Chrome:
+Redirect: ^https:\/\/www\.google\.com\/search\?.*q=go(?:%2F|\/)([^&]+).*$
+To: https://go.example.net/$1
+```
 
 ### Backups
 
-Use **Export links** and **Import links** in the footer to transfer JSONL backups
-between instances. Links, templates, timestamps and total visits are preserved.
-An optional CSV from `/_/export-stats` also preserves click history. Existing names
-are skipped; invalid backups make no partial changes. Browser imports accept up
-to 8 MiB of files combined. Larger backups use the CLI:
+Use **Export links** and **Import links** in the footer to move links between
+instances as JSONL files. Or with the CLI:
 
-```zsh
-GOLINKS_DATABASE=./data/restored.db ./golinks import \
-  --links /path/to/golinks.jsonl --stats /path/to/golinks-stats.csv
+```shell
+export GOLINKS_DATABASE=./data/restored.db
+golinks import --links /path/to/golinks.jsonl --stats /path/to/golinks-stats.csv
 ```
-
-
-## Configuration
-
-| Variable                | Default                                      |
-| ----------------------- | -------------------------------------------- |
-| `GOLINKS_ADDR`          | `127.0.0.1:8080`                             |
-| `GOLINKS_DATABASE`      | `./data/golinks.db`                          |
-| `GOLINKS_PUBLIC_URL`    | `http://127.0.0.1:8080`                      |
-| `GOLINKS_READONLY`      | `false`                                      |
-| `GOLINKS_API_TARGET`    | `http://127.0.0.1:8080` (frontend dev proxy) |
-
-For another local port:
-
-```zsh
-GOLINKS_ADDR=127.0.0.1:8082 GOLINKS_PUBLIC_URL=http://127.0.0.1:8082 ./golinks
-```
-
-Readiness is `/_/readyz`; liveness is `/_/healthz`. The `/_/` namespace
-keeps operational endpoints separate from short links. Readiness checks database
-access. For a reverse proxy, set `GOLINKS_PUBLIC_URL` to its public origin.
 
 ### MCP
 
-The native Streamable HTTP endpoint is `/_/mcp`. Tools: `search_links`, `get_link`, `resolve_link`, `create_link`, `update_link`.
-Search, inspect, and preview links without counting visits. Create and update use the same validation as the HTTP API; read-only mode omits both write tools. Relative aliases resolve to the immediate redirect without following it.
+Agents can manage links through the MCP endpoint at `/_/mcp` (Streamable HTTP).
+Tools: `search_links`, `get_link`, `resolve_link`, `create_link`, and
+`update_link`.
 
-List tools accept `limit` (default 20, maximum 100) and nonnegative `offset`,
-returning `total` and nullable `next_offset`. Responses are structured JSON.
-Connect a remote MCP client using its Streamable HTTP transport, for example:
+### Security
 
-```json
-{"url": "http://127.0.0.1:8080/_/mcp", "transport": "streamable-http"}
-```
+There is no authentication: anyone who can reach the service can manage links,
+so run it on a trusted network or behind an authenticated proxy.
 
-MCP accepts localhost by default. For a proxy or container network, set
-`GOLINKS_MCP_ALLOWED_HOSTS` to a comma-separated list of exact hostnames
-or IP addresses, such as `app.example.net,app.default.svc.cluster.local`.
-Do not include schemes, ports, or wildcards. Invalid values fail startup.
-Browser origins must match the request host and port. Requests use POST with a
-1 MiB body limit; responses use `Cache-Control: no-store`. The endpoint has no
-built-in authentication: use a trusted network or an authenticated proxy.
+## Configuration
+
+| Variable             | Default                                      |
+| -------------------- | -------------------------------------------- |
+| `GOLINKS_ADDR`       | `127.0.0.1:8080`                             |
+| `GOLINKS_DATABASE`   | `./data/golinks.db`                          |
+| `GOLINKS_PUBLIC_URL` | `http://127.0.0.1:8080`                      |
+| `GOLINKS_READONLY`   | `false`                                      |
+| `GOLINKS_API_TARGET` | `http://127.0.0.1:8080` (frontend dev proxy) |
+
+For a reverse proxy, set `GOLINKS_PUBLIC_URL` to its public origin. Readiness
+is `/_/readyz`; liveness is `/_/healthz`.
 
 ## Development
 
 Requires Go 1.25, Node 26, pnpm 10, and just.
 
-```zsh
+Start the API and Frontend in two terminals:
+
+```shell
+# Terminal 1:
 just install
 just api
-```
 
-In another terminal:
-
-```zsh
+# Terminal 2:
 just frontend
 ```
 
-Open [http://127.0.0.1:5173](http://127.0.0.1:5173). Vite proxies API
-requests to the Go server. Run `just check` for Go race tests, vet, frontend
-tests, and Svelte/TypeScript checks.
-
-The repositories share this structure:
-
-```text
-cmd/<app>/              Configuration and server lifecycle
-internal/               Go application packages
-internal/httpapi/       HTTP API and health probes
-internal/web/           Embedded frontend and static serving
-frontend/src/theme.css  Shared palette, typography, and font definitions
-frontend/src/app.css    Application layouts and interactions
-scripts/                Container smoke test
-docs/screenshots/       README screenshots
-```
-
-The shared theme loads Inter and IBM Plex Mono from Google Fonts, with dark, light,
-and system preferences. Dark is the default; the header theme control saves
-your choice. Keep `frontend/src/theme.css` identical across these projects.
-`PRODUCT.md` describes users and purpose; `DESIGN.md` records interface rules.
-Local plans, agent reports, and design-tool state stay out of Git.
+Open [http://127.0.0.1:5173](http://127.0.0.1:5173). Vite proxies API requests
+to the Go server. Run `just check` before sending changes. See `AGENTS.md` for
+project structure and conventions.
 
 ## Build
 
@@ -148,12 +129,6 @@ Local plans, agent reports, and design-tool state stay out of Git.
 just build
 ```
 
-The executable embeds the built frontend and needs no Node runtime. Build and
-smoke-test a local container with:
-
 ```zsh
 just image-check
 ```
-
-Published images support Linux AMD64 and ARM64. `latest` tracks `main`;
-`sha-<commit>` tags and image digests can pin a deployment.

@@ -1,40 +1,34 @@
-# golinks
+# Agent Instructions
+
+Golinks is a self-hosted short-link service.
+It builds one Go binary that serves redirects, a
+Huma HTTP API, an MCP endpoint, and an embedded Svelte 5 frontend backed by SQLite.
 
 Read `PRODUCT.md` for user intent and `DESIGN.md` before changing the frontend.
 
+The `README.md` and `justfile` own setup and usage.
+Do not make big changes to those as they are intended for humans but you can update them if they are user facing.
+
 ## Architecture
 
-- `cmd/golinks` owns configuration, dependency wiring, and server lifecycle.
-- `internal/httpapi` serves Huma endpoints; `internal/web` embeds the frontend.
-- `internal/links` defines validation and Go URL templates; `internal/store` owns SQLite, click history, and atomic backups.
-- `frontend` uses Vite, Svelte 5, TypeScript, and Kit UI with pnpm. No SvelteKit or Tailwind.
+- Go for the API in /cmd and /internal
+- TypeScript and Svelte 5 for the frontend in /frontend
+- Should build into a single binary with an embedded frontend
 
-- `internal/mcp` owns typed MCP tools and the host/origin policy; keep its transport conventions consistent across the three apps.
+## Behavior Invariants
 
-## Conventions
+- Keep SQLite rollback journaling; it supports databases on network storage.
+- All internal endpoints live under `/_/`; never reserve ordinary short names for operational routes.
+- MCP write tools use the same validation as the HTTP API
 
-Import shared controls directly from `@kenn-io/kit-ui`; local components own
-app-specific behavior. Use Svelte runes, typed props, and semantic CSS tokens.
-Keep `frontend/src/theme.css` identical across Golinks, CI View, and Homelab Launcher.
-Load Inter and IBM Plex Mono from Google Fonts; never bundle font binaries.
-Inter is for interface text; IBM Plex Mono is for identity and data. Preserve
-`scrollbar-gutter: stable`, dark default, and explicit light/system preferences.
-Keep desktop and phone layouts, keyboard focus, and recoverable error states.
+## Frontend Conventions
 
-Preserve encoded paths, query merging, template helpers, normalized names, and atomic imports. Count successful GET redirects only. Keep SQLite rollback journaling for network storage. All internal endpoints use `/_/`; do not reserve ordinary short names for probes.
+`DESIGN.md` owns the theme, typography, layout, and interaction rules; read it before changing the frontend
 
-## Documentation
+- Import shared controls directly from `@kenn-io/kit-ui`; local components own app-specific behavior, not pass-through wrappers
+- Use Svelte 5 runes, typed props, and semantic CSS tokens
+- Keep desktop and phone layouts, keyboard focus, and recoverable error states.
 
-README sections are overview, installation, usage, configuration, development,
-and build. Use synthetic examples without private paths, hostnames, or deployment
-processes. Keep docs limited to screenshots and essential user references.
-Keep `PRODUCT.md` and `DESIGN.md` as concise, maintained project guides.
-Do not commit generated plans, specs, agent reports, or design-tool state. The root
-`LICENSE` contains the standard Apache 2.0 text only.
+## Deployment
 
-## Development
-
-Use `just install`, `just api`, and `just frontend`. `just check` runs Go race
-tests, vet, frontend tests, and type checks. `just build` verifies and embeds the
-frontend in one executable; `just image-check` builds and smoke-tests a container.
-For UI changes, verify both themes and desktop/phone widths in a browser.
+If you are working for Daniel/danielfrg/danrodriguez. He deploys this service in his homelab, you can find the source in ~/code/danielfrg/homelab to find more details.
