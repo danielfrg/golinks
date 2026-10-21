@@ -86,6 +86,9 @@ Agents can manage links through the MCP endpoint at `/_/mcp` (Streamable HTTP).
 Tools: `search_links`, `get_link`, `resolve_link`, `create_link`, and
 `update_link`.
 
+MCP only accepts requests addressed to localhost. Behind a proxy, set
+`GOLINKS_MCP_ALLOWED_HOSTS` to your public hostname.
+
 ### Security
 
 There is no authentication: anyone who can reach the service can manage links,
@@ -93,13 +96,14 @@ so run it on a trusted network or behind an authenticated proxy.
 
 ## Configuration
 
-| Variable             | Default                                      |
-| -------------------- | -------------------------------------------- |
-| `GOLINKS_ADDR`       | `127.0.0.1:8080`                             |
-| `GOLINKS_DATABASE`   | `./data/golinks.db`                          |
-| `GOLINKS_PUBLIC_URL` | `http://127.0.0.1:8080`                      |
-| `GOLINKS_READONLY`   | `false`                                      |
-| `GOLINKS_API_TARGET` | `http://127.0.0.1:8080` (frontend dev proxy) |
+| Variable                    | Default                                      |
+| --------------------------- | -------------------------------------------- |
+| `GOLINKS_ADDR`              | `127.0.0.1:8080`                             |
+| `GOLINKS_DATABASE`          | `./data/golinks.db`                          |
+| `GOLINKS_PUBLIC_URL`        | `http://127.0.0.1:8080`                      |
+| `GOLINKS_READONLY`          | `false`                                      |
+| `GOLINKS_MCP_ALLOWED_HOSTS` | unset (MCP allows localhost only)            |
+| `GOLINKS_API_TARGET`        | `http://127.0.0.1:8080` (frontend dev proxy) |
 
 For a reverse proxy, set `GOLINKS_PUBLIC_URL` to its public origin. Readiness
 is `/_/readyz`; liveness is `/_/healthz`.
