@@ -1,16 +1,12 @@
 # Product
 
-## Register
-
-product
-
 ## Users
 
 People or small teams looking for a simple golinks service to build memorable
 shortcuts and a directory for finding, creating, and maintaining their links
 from a desktop or phone.
 
-Assumes deployment on trusted network, there is no auth.
+Assumes deployment on a trusted network; there is no auth.
 
 ## Product Purpose
 

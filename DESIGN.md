@@ -1,13 +1,13 @@
 # Design System
 
-golinks is a simple self-hosted application.
+Golinks is a simple self-hosted application.
 
 The interface should use a small consistent vocabulary rather than
 one-off styling for each new control.
 
 ## Component Rules
 
-Use the shared desktop workspace theme in `frontend/src/theme.css`. We keep that file identical across other projects so changes there should be generic enough and minimal.
+Use the shared desktop workspace theme in `frontend/src/theme.css`. We keep that file identical across the other self-hosted apps, so changes there should be generic and minimal.
 Application layout and interaction rules belong in `frontend/src/app.css`.
 
 - Use Svelte 5 runes, typed props, and callback props.
@@ -21,6 +21,7 @@ and no decorative shadows.
 - Preserve `scrollbar-gutter: stable`.
 - Import shared controls directly from `@kenn-io/kit-ui`.
 - Use semantic theme tokens and keep the library's default control sizes.
+- Keep local components for app-specific behavior, not pass-through wrappers.
 - Give fields one visible focus treatment and keep pressed controls stationary.
 
 ## Appearance and Accessibility

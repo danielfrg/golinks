@@ -105,8 +105,8 @@ so run it on a trusted network or behind an authenticated proxy.
 | `GOLINKS_MCP_ALLOWED_HOSTS` | unset (MCP allows localhost only)            |
 | `GOLINKS_API_TARGET`        | `http://127.0.0.1:8080` (frontend dev proxy) |
 
-For a reverse proxy, set `GOLINKS_PUBLIC_URL` to its public origin. Readiness
-is `/_/readyz`; liveness is `/_/healthz`.
+For a reverse proxy, set `GOLINKS_PUBLIC_URL` to its public origin. Liveness
+is `/_/healthz`; readiness is `/_/readyz`.
 
 ## Development
 
