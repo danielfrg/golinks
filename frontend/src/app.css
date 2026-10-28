@@ -1,5 +1,16 @@
+/* Application aliases resolve from the shared theme tokens. */
+:root {
+ scrollbar-gutter: stable;
+ --background: var(--bg-primary); --foreground: var(--text-primary);
+ --card: var(--bg-surface); --muted: var(--bg-inset);
+ --muted-foreground: var(--text-secondary); --border: var(--border-default);
+ --input: var(--border-default); --ring: var(--brand-accent, var(--accent-blue));
+ --destructive: var(--accent-red); --radius: var(--radius-lg);
+ --primary: var(--text-primary); --primary-foreground: var(--bg-surface);
+}
+
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--background); color: var(--foreground); font-size: var(--font-size-root); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); font-size: var(--font-size-md); line-height: 1.5; -webkit-font-smoothing: antialiased; }
 button, input, textarea, select { font: inherit; touch-action: manipulation; }
 a { touch-action: manipulation; }
 button, a { cursor: pointer; }
@@ -25,22 +36,16 @@ code, pre { font-family: var(--font-mono); }
 
 @media(max-width:600px){.directory-toolbar .search-field{flex-basis:100%}.sort-label>span{display:none}}
 
-/* Table presentation from the accepted Charcoal Index option. */
+/* Table presentation. */
 .kit-table-wrapper { border: 1px solid var(--border-default); }
 .kit-table { background: var(--bg-surface); }
 .app-shell .kit-table tbody td { padding: 14px; font-size: 13px; }
 .app-shell .kit-th { padding: 12px 14px; font-size: 11px; letter-spacing: .04em; font-weight: 400; }
 .app-shell .short-link { font-size: 14px; }
-.app-shell .kit-button:hover { border-color: var(--ring); }
-/* A single focus edge replaces the separate border and outer focus outline. */
-.app-shell .kit-text-input:focus-within,
-.app-shell .kit-text-input:has(.kit-text-input__control:focus-visible) {
- border-color: var(--ring);
- outline: none;
- box-shadow: none;
-}
-.app-shell .kit-text-input__control:focus-visible { outline: none; }
-.app-shell .kit-text-input__control::placeholder { color: var(--text-secondary); }
+.editor { margin-bottom: 24px; }
+
+/* Native fields follow the shared component focus treatment. */
+.field textarea, .backup-file { background: var(--bg-inset); }
 .field textarea:focus-visible,
 .backup-file:focus-visible { border-color: var(--ring); outline: none; box-shadow: none; }
 
