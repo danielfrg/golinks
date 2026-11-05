@@ -110,7 +110,7 @@ is `/_/healthz`; readiness is `/_/readyz`.
 
 ## Development
 
-Requires Go 1.25, Node 26, pnpm 10, and just.
+Requires Go 1.27, Node 26, pnpm 10, and just.
 
 Start the API and Frontend in two terminals:
 
