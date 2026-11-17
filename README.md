@@ -5,7 +5,9 @@ A golinks service. Ready for self-hosting.
 Go links are intuitive, easy-to-remember short links.
 [Read more about them](https://golinks.github.io/golinks/).
 
-![Golinks](docs/screenshots/homepage.png)
+**Personal project**: This is completely vibe coded for my own personal use. I won't be accepting feature requests or PRs. You're welcome to fork it and make it your own.
+
+![Golinks](docs/screenshot.png)
 
 ## Installation
 
@@ -64,8 +66,11 @@ Config:
 Redirect: http://go/*
 To: https://go.example.net/$1
 Example: http://go/page → https://go.example.net/page
+```
 
-## You might also need this in Chrome:
+You might also need this in Chrome, so searches for `go/name` also redirect:
+
+```
 Redirect: ^https:\/\/www\.google\.com\/search\?.*q=go(?:%2F|\/)([^&]+).*$
 To: https://go.example.net/$1
 ```
@@ -126,6 +131,9 @@ just frontend
 Open [http://127.0.0.1:5173](http://127.0.0.1:5173). Vite proxies API requests
 to the Go server. Run `just check` before sending changes. See `AGENTS.md` for
 project structure and conventions.
+
+`frontend/src/design-system/` holds the theme and shared components, synced from
+the shared design system. Don't edit it by hand.
 
 ## Build
 

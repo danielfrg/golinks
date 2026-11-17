@@ -1,6 +1,21 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
-  import { Button, SearchInput, SelectDropdown, EmptyState, ThemeToggle } from "@kenn-io/kit-ui";
+  import { CheckIcon, ChevronDownIcon, PlusIcon, SearchIcon } from "@lucide/svelte";
+  import { Button } from "@ui-sdk/svelte/button";
+  import { Input, InputGroup } from "@ui-sdk/svelte/input";
+  import { Preferences } from "@ui-sdk/svelte/preferences";
+  import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectItemIndicator,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+  } from "@ui-sdk/svelte/select";
+  import { ThemeToggle } from "./design-system/custom/theme-toggle";
+  import { colorScheme } from "$lib/color-scheme";
+  import EmptyState from "$lib/components/EmptyState.svelte";
   import LinkList from "$lib/components/LinkList.svelte";
   import LinkEditor from "$lib/components/LinkEditor.svelte";
   import TemplateHelp from "$lib/components/TemplateHelp.svelte";
@@ -28,9 +43,12 @@
   let sort = $state<"name" | "clicks">("clicks");
   let request: AbortController | null = null;
 
-  let importButton: HTMLButtonElement | null = $state(null);
   let importing = $state(false);
   let importStatus = $state("");
+  const sortItems = [
+    { value: "name", label: "Name" },
+    { value: "clicks", label: "Most used" },
+  ];
   const visible = $derived(sortLinks(filterLinks(links, query), sort));
   const normalize = (value: string) => value.toLowerCase().replaceAll("-", "");
   const editing = $derived(
@@ -109,7 +127,7 @@
     importing = false;
     if (reload) await load();
     await tick();
-    importButton?.focus();
+    document.getElementById("import-action")?.focus();
   }
   function imported(result: ImportResult) {
     importStatus = `Imported ${result.imported} ${result.imported === 1 ? "link" : "links"}. Skipped ${result.skipped} existing ${result.skipped === 1 ? "link" : "links"}.`;
@@ -132,117 +150,124 @@
   });
 </script>
 
-<header class="app-header">
-  <a
-    class="app-title"
-    href="/"
-    onclick={(event) => {
-      event.preventDefault();
-      setView({ query: "", edit: null, create: null, help: false });
-    }}><h1>Golinks</h1></a
-  ><ThemeToggle />
-</header>
-<main class="app-shell">
-  {#if error}<div class="notice" role="alert">
-      <p>{error}</p>
-      <Button class="control" onclick={load} disabled={loading}>Try again</Button>
-    </div>{/if}
-  <p class="sr-only" role="status" aria-live="polite">{status}</p>
-  {#if importStatus}<p class="import-status" role="status">{importStatus}</p>{/if}
-  {#if importing && settings && !settings.readOnly}<LinkImport
-      onImport={imported}
-      onCancel={() => void closeImport()}
-    />{/if}
-  {#if editorOpen}{#key editing?.short ?? `new-${view.create}`}<LinkEditor
-        link={editing}
-        suggested={view.create ?? ""}
-        onSave={saved}
-        onDelete={deleted}
-        onCancel={() => void closeEditor()}
-      />{/key}
-  {:else if loaded && view.edit !== null && !editing}<p class="notice" role="alert">
-      That link no longer exists. <button class="text-link" onclick={() => void closeEditor()}
-        >Back to links</button
-      >
-    </p>{/if}
-  <section class="directory" aria-label="Links" aria-busy={loading}>
-    <div class="directory-toolbar">
-      <div class="search-field">
-        <SearchInput
-          id="search"
-          block
-          ariaLabel="Search links"
-          value={query}
-          oninput={(value) => setView({ query: value }, true)}
-          placeholder="Search links"
-        />
+<Preferences preferences={[colorScheme]}>
+  <header class="app-header">
+    <a
+      class="app-title"
+      href="/"
+      onclick={(event) => {
+        event.preventDefault();
+        setView({ query: "", edit: null, create: null, help: false });
+      }}><h1>Golinks</h1></a
+    ><ThemeToggle {colorScheme} />
+  </header>
+  <main class="app-shell">
+    {#if error}<div class="notice" role="alert">
+        <p>{error}</p>
+        <Button onclick={load} disabled={loading}>Try again</Button>
+      </div>{/if}
+    <p class="sr-only" role="status" aria-live="polite">{status}</p>
+    {#if importStatus}<p class="import-status" role="status">{importStatus}</p>{/if}
+    {#if importing && settings && !settings.readOnly}<LinkImport
+        onImport={imported}
+        onCancel={() => void closeImport()}
+      />{/if}
+    {#if editorOpen}{#key editing?.short ?? `new-${view.create}`}<LinkEditor
+          link={editing}
+          suggested={view.create ?? ""}
+          onSave={saved}
+          onDelete={deleted}
+          onCancel={() => void closeEditor()}
+        />{/key}
+    {:else if loaded && view.edit !== null && !editing}<p class="notice" role="alert">
+        That link no longer exists. <button class="text-link" onclick={() => void closeEditor()}
+          >Back to links</button
+        >
+      </p>{/if}
+    <section class="directory" aria-label="Links" aria-busy={loading}>
+      <div class="directory-toolbar">
+        <InputGroup class="search-field">
+          <SearchIcon aria-hidden="true" />
+          <Input
+            type="search"
+            aria-label="Search links"
+            value={query}
+            onValueChange={(value) => setView({ query: value }, true)}
+            placeholder="Search links"
+          />
+        </InputGroup>
+        {#if !settings?.readOnly}<Button
+            class="new-link"
+            data-variant="solid"
+            onclick={() => {
+              status = "";
+              setView({ edit: null, create: "" });
+            }}
+            disabled={!settings || editorOpen || importing}
+            ><PlusIcon aria-hidden="true" />New link</Button
+          >{/if}
+        {#if settings?.readOnly}<span>Read-only</span>{/if}
+        <div class="sort-label">
+          <Select
+            items={sortItems}
+            value={sort}
+            onValueChange={(value) => (sort = value === "clicks" ? "clicks" : "name")}
+          >
+            <SelectLabel>Sort</SelectLabel>
+            <SelectTrigger>
+              <SelectValue />
+              <ChevronDownIcon aria-hidden="true" />
+            </SelectTrigger>
+            <SelectContent>
+              {#each sortItems as item (item.value)}
+                <SelectItem value={item.value}>
+                  {item.label}
+                  <SelectItemIndicator><CheckIcon aria-hidden="true" /></SelectItemIndicator>
+                </SelectItem>
+              {/each}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
-      {#if !settings?.readOnly}<Button
-          class="control new-link"
-          onclick={() => {
-            status = "";
-            setView({ edit: null, create: "" });
-          }}
-          disabled={!settings || editorOpen || importing}
-          ><svg
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"><path d="M12 5v14M5 12h14" stroke-linecap="round" /></svg
-          >New link</Button
-        >{/if}
-      {#if settings?.readOnly}<span>Read-only</span>{/if}
-      <div class="sort-label">
-        <span>Sort</span><SelectDropdown
-          title="Sort links"
-          value={sort}
-          onchange={(value) => (sort = value === "clicks" ? "clicks" : "name")}
-          options={[
-            { value: "name", label: "Name" },
-            { value: "clicks", label: "Most used" },
-          ]}
-          align="end"
-        />
-      </div>
-    </div>
-    {#if !loaded && loading}<div class="empty-state" role="status"><p>Loading links…</p></div>
-    {:else if loaded && links.length === 0}<div class="empty-state">
-        <EmptyState
+      {#if !loaded && loading}<div class="empty-state" role="status"><p>Loading links…</p></div>
+      {:else if loaded && links.length === 0}<EmptyState
           title="No links yet"
           description={settings?.readOnly
             ? "No links have been added to this directory."
             : "Create a short name for a URL you use often."}
         />
-      </div>
-    {:else if loaded && visible.length === 0}<div class="empty-state">
-        <EmptyState title="No matching links" description="Try another name or destination."
+      {:else if loaded && visible.length === 0}<EmptyState
+          title="No matching links"
+          description="Try another name or destination."
           ><Button onclick={() => setView({ query: "" }, true)}>Clear search</Button></EmptyState
         >
-      </div>
-    {:else if loaded && settings}<LinkList
-        links={visible}
-        publicUrl={settings.publicUrl}
-        readOnly={settings.readOnly}
-        disabled={importing}
-        onEdit={(link) => {
-          status = "";
-          setView({ edit: link.short, create: null });
-        }}
-      />{/if}
-  </section>
-  <footer class="app-footer">
-    <button
-      class="footer-action"
-      onclick={() => setView({ help: !view.help })}
-      aria-expanded={view.help}>Template help</button
-    ><a href="/_/export">Export links</a>{#if settings && !settings.readOnly}<button
+      {:else if loaded && settings}<LinkList
+          links={visible}
+          publicUrl={settings.publicUrl}
+          readOnly={settings.readOnly}
+          disabled={importing}
+          onEdit={(link) => {
+            status = "";
+            setView({ edit: link.short, create: null });
+          }}
+        />{/if}
+    </section>
+    <footer class="app-footer">
+      <Button
         class="footer-action"
-        bind:this={importButton}
-        onclick={openImport}
-        aria-expanded={importing}
-        disabled={importing || editorOpen || loading}>Import links</button
-      >{/if}<a href="/_/api/docs">API docs</a>
-  </footer>
-  {#if view.help}<TemplateHelp />{/if}
-</main>
+        data-variant="link"
+        onclick={() => setView({ help: !view.help })}
+        aria-expanded={view.help}>Template help</Button
+      ><a href="/_/export">Export links</a><a href="/_/export-stats">Export history</a
+      >{#if settings && !settings.readOnly}<Button
+          class="footer-action"
+          data-variant="link"
+          id="import-action"
+          onclick={openImport}
+          aria-expanded={importing}
+          disabled={importing || editorOpen || loading}>Import links</Button
+        >{/if}<a href="/_/api/docs">API docs</a>
+    </footer>
+    {#if view.help}<TemplateHelp />{/if}
+  </main>
+</Preferences>

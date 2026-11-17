@@ -7,27 +7,27 @@ one-off styling for each new control.
 
 ## Component Rules
 
-Theme and component styles come from the shared design system.
+Theme and component styles come from the shared design system, synced into
+`frontend/src/design-system/` (`theme/` and `custom/`). Never edit that folder by
+hand: changes are made upstream and synced back in.
 
 - Use Svelte 5 runes, typed props, and callback props.
 - Keep desktop and phone layouts, keyboard focus, and recoverable error states.
-- Load Inter and IBM Plex Mono from Google Fonts with `display=swap`. Do not
-embed font binaries in the repository or production assets.
-- Inter is for interface text; IBM Plex Mono is for wordmarks, identifiers, and
-technical data. Use neutral surfaces, subtle one-pixel borders, rounded controls,
-and no decorative shadows.
-- Focus is blue in light mode and amber in dark mode.
-- Preserve `scrollbar-gutter: stable`.
-- Import shared controls directly from `@kenn-io/kit-ui`.
-- Use semantic theme tokens and keep the library's default control sizes.
+- Import controls from `@ui-sdk/svelte/<component>` and shared custom components
+  (Table, ThemeToggle) from `src/design-system/custom/`.
+- Use semantic theme tokens (`--ink`, `--muted`, `--line`, `--space-*`) and keep the
+  library's default control sizes.
+- `src/app.css` holds only golinks layout and app-specific pieces; it adjusts a library
+  control's layout (width, spacing) at most, never its look.
 - Keep local components for app-specific behavior, not pass-through wrappers.
 - Give fields one visible focus treatment and keep pressed controls stationary.
+- Preserve `scrollbar-gutter: stable`.
 
 ## Appearance and Accessibility
 
 Start in dark mode and respect explicit light or system preferences. The header
-ThemeToggle saves the choice under the app's own storage key. System mode follows
-the operating system. Keep focus visible, controls labeled, and reduced-motion
+ThemeToggle cycles light, dark, and system and saves the choice under the shared
+`color-scheme` key. Keep focus visible, controls labeled, and reduced-motion
 preferences respected. Phone layouts must not widen the page.
 
 ## Application Patterns
