@@ -5,6 +5,8 @@ A golinks service. Ready for self-hosting.
 Go links are intuitive, easy-to-remember short links.
 [Read more about them](https://golinks.github.io/golinks/).
 
+**Personal project**: This is completely vibe coded for my own personal use. I won't be accepting feature requests or PRs. You're welcome to fork it and make it your own.
+
 ![Golinks](docs/screenshots/homepage.png)
 
 ## Installation
