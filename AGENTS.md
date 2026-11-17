@@ -24,3 +24,6 @@ They are written for humans: avoid big restructures, but update them when change
 ## Frontend Conventions
 
 `DESIGN.md` owns the theme, typography, layout, and interaction rules; read it before changing the frontend.
+
+`frontend/src/design-system/` is synced from the shared design system and never edited by hand.
+App-specific styles live in `frontend/src/app.css`.

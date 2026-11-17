@@ -127,6 +127,9 @@ Open [http://127.0.0.1:5173](http://127.0.0.1:5173). Vite proxies API requests
 to the Go server. Run `just check` before sending changes. See `AGENTS.md` for
 project structure and conventions.
 
+`frontend/src/design-system/` holds the theme and shared components, synced from
+the shared design system. Don't edit it by hand.
+
 ## Build
 
 ```zsh

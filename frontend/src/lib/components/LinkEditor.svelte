@@ -1,7 +1,10 @@
 <script lang="ts">
   import { onMount, untrack } from "svelte";
-  import { Button, IconButton } from "@kenn-io/kit-ui";
-  import { TextInput } from "@kenn-io/kit-ui";
+  import { ChevronDownIcon, XIcon } from "@lucide/svelte";
+  import { Button } from "@ui-sdk/svelte/button";
+  import { Field, FieldDescription, FieldLabel } from "@ui-sdk/svelte/field";
+  import { Input } from "@ui-sdk/svelte/input";
+  import { Textarea } from "@ui-sdk/svelte/textarea";
   import { createLink, updateLink, deleteLink, previewLink, type Link } from "$lib/links.js";
   let {
     link = null,
@@ -27,12 +30,9 @@
   let preview = $state("");
   let previewError = $state("");
   let previewing = $state(false);
-  let nameInput: HTMLInputElement | undefined = $state();
-  let destinationInput: HTMLTextAreaElement | null = $state(null);
   let previewRequest: AbortController | null = null;
   onMount(() => {
-    if (link) destinationInput?.focus();
-    else nameInput?.focus();
+    document.querySelector<HTMLElement>(link ? "[name=destination]" : "[name=short]")?.focus();
     return () => previewRequest?.abort();
   });
   function invalidatePreview() {
@@ -90,93 +90,78 @@
 <section class="editor" aria-labelledby="editor-title">
   <div class="editor-heading">
     <h2 id="editor-title">{link ? "Edit link" : "New link"}</h2>
-    <IconButton class="close-editor" onclick={onCancel} disabled={busy} ariaLabel="Close editor"
-      ><svg
-        aria-hidden="true"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"><path d="m6 6 12 12M6 18 18 6" stroke-linecap="round" /></svg
-      ></IconButton
+    <Button
+      class="close-editor"
+      data-variant="ghost"
+      onclick={onCancel}
+      disabled={busy}
+      aria-label="Close editor"><XIcon aria-hidden="true" /></Button
     >
   </div>
   <form onsubmit={save}>
     <div class="editor-fields">
-      <div class="field">
-        <label for="short-name">Short name</label><TextInput
-          block
-          id="short-name"
-          bind:inputEl={nameInput}
+      <Field name="short">
+        <FieldLabel>Short name</FieldLabel>
+        <Input
           bind:value={short}
           disabled={busy || !!link}
           required
           autocomplete="off"
           placeholder="meeting-notes"
-          ariaDescribedby="name-hint"
         />
-        <p class="field-hint" id="name-hint">Case and hyphens are ignored.</p>
-      </div>
-      <div class="field">
-        <label for="destination">Destination</label><textarea
-          id="destination"
-          bind:this={destinationInput}
+        <FieldDescription>Case and hyphens are ignored.</FieldDescription>
+      </Field>
+      <Field name="destination" invalid={error ? true : undefined}>
+        <FieldLabel>Destination</FieldLabel>
+        <Textarea
           bind:value={destination}
           oninput={invalidatePreview}
           disabled={busy}
           required
-          rows="2"
+          rows={2}
           placeholder="https://example.com/"
           spellcheck="false"
           aria-describedby={error ? "save-error" : undefined}
-          aria-invalid={error ? true : undefined}></textarea>
-      </div>
+        />
+      </Field>
     </div>
     {#if error}<p class="form-error" id="save-error" role="alert">{error}</p>{/if}
     <div class="editor-actions">
-      <Button type="submit" class="control" disabled={busy}>{busy ? "Saving…" : "Save link"}</Button
-      ><Button class="control" onclick={onCancel} disabled={busy}>Cancel</Button><Button
+      <Button type="submit" data-variant="solid" disabled={busy}
+        >{busy ? "Saving…" : "Save link"}</Button
+      ><Button onclick={onCancel} disabled={busy}>Cancel</Button><Button
         class="test-toggle"
         onclick={() => {
           testing = !testing;
         }}
         disabled={busy}
-        ariaExpanded={testing}
-        >Try a path<svg
-          class:expanded={testing}
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          ><path d="m8 10 4 4 4-4" stroke-linecap="round" stroke-linejoin="round" /></svg
-        ></Button
+        aria-expanded={testing}
+        aria-controls="path-preview"
+        >Try a path<ChevronDownIcon class={testing ? "expanded" : ""} aria-hidden="true" /></Button
       >
     </div>
     {#if testing}<div class="preview-area" id="path-preview">
         <div class="preview-fields">
-          <div class="field">
-            <label for="preview-path">Extra path</label><TextInput
-              block
-              id="preview-path"
+          <Field name="preview-path">
+            <FieldLabel>Extra path</FieldLabel>
+            <Input
               bind:value={path}
               oninput={invalidatePreview}
               placeholder="docs/getting-started"
               disabled={busy}
             />
-          </div>
-          <div class="field">
-            <label for="preview-query">Query string <span class="optional">(optional)</span></label
-            ><TextInput
-              block
-              id="preview-query"
+          </Field>
+          <Field name="preview-query">
+            <FieldLabel>Query string <span class="optional">(optional)</span></FieldLabel>
+            <Input
               bind:value={query}
               oninput={invalidatePreview}
               placeholder="page=2"
               disabled={busy}
             />
-          </div>
+          </Field>
           <Button
-            class="control preview-button"
+            class="preview-button"
             onclick={tryPath}
             disabled={busy || previewing || !destination}
             >{previewing ? "Testing…" : "Preview"}</Button
@@ -190,12 +175,9 @@
   </form>
   {#if link}<div class="delete-area">
       {#if deleting}<p>Delete <strong>{link.short}</strong>?</p>
-        <Button tone="danger" class="control" onclick={remove} disabled={busy}>Delete link</Button
-        ><Button class="control" onclick={() => (deleting = false)} disabled={busy}
-          >Keep link</Button
-        >{:else}<Button
-          tone="danger"
-          class="delete-toggle"
+        <Button data-variant="destructive" onclick={remove} disabled={busy}>Delete link</Button
+        ><Button onclick={() => (deleting = false)} disabled={busy}>Keep link</Button>{:else}<Button
+          data-variant="destructive"
           onclick={() => (deleting = true)}
           disabled={busy}>Delete link</Button
         >{/if}
