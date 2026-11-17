@@ -66,8 +66,11 @@ Config:
 Redirect: http://go/*
 To: https://go.example.net/$1
 Example: http://go/page → https://go.example.net/page
+```
 
-## You might also need this in Chrome:
+You might also need this in Chrome, so searches for `go/name` also redirect:
+
+```
 Redirect: ^https:\/\/www\.google\.com\/search\?.*q=go(?:%2F|\/)([^&]+).*$
 To: https://go.example.net/$1
 ```
