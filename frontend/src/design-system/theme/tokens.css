@@ -1,6 +1,6 @@
 /*
  * Theme: cadence. Design tokens for ui-sdk components; load before components.css.
- * A Tailwind-flavored look: Inter, cool grays in light mode and warm charcoal grays in
+ * A Tailwind-flavored look: Inter, cool grays in light mode and slightly blue grays in
  * dark mode, a blue primary for fills, focus and selection, soft gray borders on
  * controls, 6px corners and light shadows.
  * Light and dark come from light-dark(): set color-scheme (or data-color-scheme) on <html>.
@@ -10,28 +10,28 @@
 :root,
 [data-color-scheme] {
   /* Text and surfaces */
-  --ink: light-dark(#111827, #f7f5f4);
-  --paper: light-dark(#ffffff, #1f1e1e);
-  --surface-1: light-dark(#ffffff, #232222);
-  --surface-2: light-dark(#ffffff, #282727);
-  --surface-3: light-dark(#ffffff, #2e2d2d);
-  --tint: light-dark(#f3f4f6, #2e2d2d);
-  --muted: light-dark(#6b7280, #afacab);
-  --line: light-dark(#d1d5db, #444342);
-  --line-faint: light-dark(#e5e7eb, #2e2d2d);
-  --line-disabled: light-dark(#d1d5db, #5c5a59);
-  --danger: light-dark(#dc2626, #f87171);
+  --ink: light-dark(#111827, #f4f4f5);
+  --paper: light-dark(#ffffff, #19191c);
+  --surface-1: light-dark(#ffffff, #1f2023);
+  --surface-2: light-dark(#ffffff, #27292c);
+  --surface-3: light-dark(#ffffff, #303136);
+  --tint: light-dark(#f3f4f6, #26272b);
+  --muted: light-dark(#6b7280, #9c9da1);
+  --line: light-dark(#d1d5db, #383a3f);
+  --line-faint: light-dark(#e5e7eb, #2b2d32);
+  --line-disabled: light-dark(#d1d5db, #4c4e54);
+  --danger: light-dark(#dc2626, #f27474);
   --danger-tint: color-mix(in oklab, var(--danger) 9%, var(--surface-2));
   --backdrop: light-dark(rgb(17 24 39 / 0.35), rgb(10 9 9 / 0.7));
 
   /* Primary: solid buttons, checked and selected parts, focus */
   --accent: light-dark(#1d4fc5, #6c92e9);
   --halo: color-mix(in oklab, var(--accent) 28%, transparent);
-  --fill: light-dark(#1d4fc5, #376ae2);
+  --fill: light-dark(#1d4fc5, #3b6ede);
   --fill-hover: light-dark(#376ae2, #6c92e9);
   --on-fill: #ffffff;
   --edge: var(--line);
-  --edge-hover: light-dark(#9ca3af, #6b6968);
+  --edge-hover: light-dark(#9ca3af, #55575d);
   --edge-active: var(--accent);
 
   /* Elevation */
